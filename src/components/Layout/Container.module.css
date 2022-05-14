@@ -1,0 +1,26 @@
+.container {
+  min-height: 98vh;
+  display: grid;
+  grid-template-columns: 0.7fr 1fr 1fr;
+  grid-template-rows: 0.1fr 1fr 0.05fr;
+  gap: 5px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "header header header"
+    "sidebar content content"
+    "footer footer footer";
+}
+
+@media screen and (max-width: 750px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.1fr 0.5fr 1fr 0.05fr;
+    gap: 25px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "content"
+      "footer";
+  }
+}

@@ -1,0 +1,49 @@
+.inputDescription {
+  font-size: 0.8rem;
+}
+
+.inputDescError {
+  font-size: 1rem;
+  font-weight: bold;
+  color: red;
+}
+
+.inputForm input[type="text"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0);
+  outline: 0;
+  border-width: 0 0 2px;
+  border-color: var(--global-yellow);
+  color: white;
+  font-size: 1rem;
+}
+
+.inputForm button {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  font-weight: bold;
+  color: white;
+  background: rgba(0, 0, 0, 0);
+  border-color: var(--global-yellow);
+  border-style: solid;
+  cursor: pointer;
+}
+
+.inputError {
+  border-color: red !important;
+}
+
+.inputForm button:hover:enabled {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.inputForm button:disabled {
+  color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 200, 0, 0.4);
+  cursor: not-allowed;
+}

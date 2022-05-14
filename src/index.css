@@ -1,0 +1,8 @@
+@import "./components/UI/vars.css";
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap");
+
+body {
+  background: var(--global-background);
+  font-family: "Open Sans", sans-serif;
+  color: var(--global-textColor);
+}
