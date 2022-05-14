@@ -1,0 +1,17 @@
+.footer {
+  grid-area: footer;
+  box-shadow: var(--global-boxShadow) 0px 6px 24px 0px,
+    var(--global-boxBorder) 0px 0px 0px 1px;
+  font-size: 0.8rem;
+}
+
+.footer p {
+  text-align: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.footer a {
+  text-decoration: none;
+  color: aqua;
+}

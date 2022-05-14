@@ -1,0 +1,70 @@
+.itemContainer {
+  display: grid;
+  grid-template-columns: 0.5fr 1.5fr 0.5fr 0.5fr 0.5fr 0.2fr 0.2fr;
+  grid-template-rows: 1fr;
+  gap: 5px;
+  grid-template-areas: ". . . . . . . ";
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.5) 0px 0px 0px 1px;
+  margin-bottom: 10px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.expensive {
+  background: rgba(255, 0, 0, 0.18);
+}
+
+.cheap {
+  background: rgba(0, 255, 0, 0.1);
+}
+
+.itemContainer:hover {
+  box-shadow: rgba(255, 200, 0, 0.05) 0px 6px 24px 0px,
+    rgba(255, 200, 0, 0.5) 0px 0px 0px 1px;
+}
+
+.itemContainer p {
+  text-align: left;
+  padding: 0.5rem;
+}
+
+.itemContainer a {
+  color: aqua;
+  text-decoration: none;
+}
+
+.itemContainer a:link {
+  text-decoration: underline;
+}
+.itemContainer a:visited {
+  color: aqua;
+  text-decoration: none;
+}
+
+.removeBtn {
+  cursor: pointer;
+}
+
+.removeBtn:hover {
+  transform-origin: 25% 50%;
+  animation: wiggle 1.5s infinite;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(10deg);
+  }
+  25% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

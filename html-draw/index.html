@@ -1,0 +1,114 @@
+<html>
+  <header></header>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=0.8" />
+
+  <body>
+    <div class="container">
+      <header>
+        <h1><span id="ikea">IKEA</span> DE / PL Preisvergleich</h1>
+      </header>
+
+      <div class="sidebar">
+        <h2>Eingabe</h2>
+        <hr />
+
+        <form>
+          <label for="artikelnummer">Artikelnummer</label>
+          <input id="artikelnummer" type="text" placeholder="129.123.123" />
+          <button>Hinzufügen</button>
+        </form>
+
+        <p style="font-size: 0.8rem">
+          Artikelnummer mit oder ohne Punkte eingeben und mit ENTER oder dem
+          Button bestätigen.
+        </p>
+        <br />
+        <h2>Statistik</h2>
+        <hr />
+
+        <h3>Gesamtpreis</h3>
+
+        <div>
+          <div style="display: flex">
+            <p style="text-align: left; width: 70%; margin-left: 0.5rem">
+              Deutschland
+            </p>
+            <p style="text-align: left; width: 30%">255$</p>
+          </div>
+          <div style="display: flex">
+            <p style="text-align: left; width: 70%; margin-left: 0.5rem">
+              Polen
+            </p>
+            <p style="text-align: left; width: 30%">255$</p>
+          </div>
+          <div style="display: flex">
+            <p style="text-align: left; width: 70%; margin-left: 0.5rem">
+              Polen (IKEA Family)
+            </p>
+            <p style="text-align: left; width: 30%">22255$</p>
+          </div>
+
+          <h3>Sonstiges</h3>
+          <div style="display: flex">
+            <p style="text-align: left; width: 70%; margin-left: 0.5rem">
+              Produkte
+            </p>
+            <p style="text-align: left; width: 30%">50 Stk.</p>
+          </div>
+        </div>
+        <br />
+        <h2>Ersparnis</h2>
+        <hr />
+        <p class="savings">500$</p>
+      </div>
+      <main>
+        <ul>
+          <li>
+            <div class="itemContainerHeader">
+              <p>Artikel-Nr.</p>
+              <p>Name</p>
+              <p>DE</p>
+              <p>PLN</p>
+              <p>PLN (F)</p>
+              <p>Status</p>
+              <p></p>
+            </div>
+          </li>
+          <li>
+            <div class="itemContainer">
+              <p>123.156.156</p>
+              <p>DIMFORSEN</p>
+              <p>5$</p>
+              <p>10$</p>
+              <p>10$</p>
+              <p>🔴</p>
+              <p>❌</p>
+            </div>
+          </li>
+
+          <li>
+            <div class="itemContainer">
+              <p>123.156.156</p>
+              <p>PLUGGLAND Haengetuer</p>
+              <p>5000$</p>
+              <p>10000$</p>
+              <p>10000$</p>
+              <p>🟢</p>
+              <p>❌</p>
+            </div>
+          </li>
+        </ul>
+      </main>
+      <footer>
+        <p>© Copyright 2022 bandrewk. OpenSource project, view on GitHub.</p>
+      </footer>
+    </div>
+  </body>
+</html>

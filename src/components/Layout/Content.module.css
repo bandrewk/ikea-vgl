@@ -1,0 +1,19 @@
+.main {
+  min-height: 50vh;
+  grid-area: content;
+  box-shadow: var(--global-boxShadow) 0px 6px 24px 0px,
+    var(--global-boxBorder) 0px 0px 0px 1px;
+}
+
+@media screen and (max-width: 750px) {
+  .main {
+    display: flex;
+    overflow: auto;
+  }
+}
+
+.main ul {
+  min-width: 750px;
+  list-style-type: none;
+  padding-inline-start: 0px;
+}

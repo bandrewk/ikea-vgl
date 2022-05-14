@@ -1,0 +1,229 @@
+.container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 0.7fr 1fr 1fr;
+  grid-template-rows: 0.1fr 1fr 0.05fr;
+  gap: 5px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "header header header"
+    "sidebar content content"
+    "footer footer footer";
+}
+
+@media screen and (max-width: 750px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.1fr 0.5fr 1fr 0.05fr;
+    gap: 25px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "content"
+      "footer";
+  }
+}
+
+/* https://coolors.co/1e212b-4d8b31-ffc800-ff8427-ffffff */
+
+:root {
+  --global-yellow: #ffc800;
+}
+body {
+  background: #1e212b;
+  font-family: "Open Sans", sans-serif;
+  color: white;
+}
+
+/* Header */
+header {
+  grid-area: header;
+  border: 1px;
+
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.5) 0px 0px 0px 1px;
+}
+
+header h1 {
+  text-align: center;
+
+  font-weight: 600;
+  font-size: 4rem;
+}
+
+@media screen and (max-width: 750px) {
+  header h1 {
+    text-align: center;
+
+    font-weight: 600;
+    font-size: 2rem;
+  }
+}
+
+#ikea {
+  color: var(--global-yellow);
+  letter-spacing: 0.4rem;
+}
+
+.ikea-letter {
+  color: var(--global-yellow);
+  font-weight: bold;
+}
+
+/* Footer */
+footer {
+  grid-area: footer;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.5) 0px 0px 0px 1px;
+  font-size: 0.8rem;
+}
+
+footer p {
+  text-align: center;
+}
+
+/* Sidebar */
+.sidebar {
+  grid-area: sidebar;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.5) 0px 0px 0px 1px;
+  padding: 1rem;
+}
+
+.sidebar h2 {
+  margin-bottom: 0.5rem;
+
+  letter-spacing: 0.1rem;
+}
+
+.sidebar hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.sidebar input[type="text"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0);
+  outline: 0;
+  border-width: 0 0 2px;
+  border-color: var(--global-yellow);
+  color: white;
+  font-size: 1rem;
+}
+
+.sidebar button {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  font-weight: bold;
+  color: white;
+  background: rgba(0, 0, 0, 0);
+  border-color: var(--global-yellow);
+  border-style: solid;
+}
+
+.savings {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.sidebar button:hover:enabled {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.sidebar button:disabled {
+  color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 200, 0, 0.4);
+}
+
+/* Main */
+main {
+  min-height: 50vh;
+  grid-area: content;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.5) 0px 0px 0px 1px;
+}
+
+@media screen and (max-width: 750px) {
+  main {
+    display: flex;
+    overflow: auto;
+  }
+}
+
+ul {
+  min-width: 750px;
+  list-style-type: none;
+  padding-inline-start: 0px;
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+.itemContainer {
+  display: grid;
+  grid-template-columns: 0.5fr 1.5fr 0.5fr 0.5fr 0.5fr 0.3fr 0.3fr;
+  grid-template-rows: 1fr;
+  gap: 5px;
+  grid-template-areas: ". . . . . . .";
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.5) 0px 0px 0px 1px;
+  margin-bottom: 10px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.itemContainer:hover {
+  box-shadow: rgba(255, 200, 0, 0.05) 0px 6px 24px 0px,
+    rgba(255, 200, 0, 0.5) 0px 0px 0px 1px;
+}
+
+.itemContainer p {
+  text-align: left;
+  padding: 0.5rem;
+}
+
+.itemContainerHeader {
+  display: grid;
+  grid-template-columns: 0.5fr 1.5fr 0.5fr 0.5fr 0.5fr 0.3fr 0.3fr;
+  grid-template-rows: 1fr;
+  gap: 5px;
+  grid-template-areas: ". . . . . .";
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.5) 0px 0px 0px 1px;
+  margin-bottom: 10px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.itemContainerHeader p {
+  white-space: nowrap;
+  text-align: left;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
