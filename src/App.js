@@ -11,6 +11,7 @@ import {
   API_URL_PLN,
   EUR_TO_PLN_RATE_AVG,
 } from "./components/config";
+import Input from "./components/Layout/Input";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -202,6 +203,7 @@ function App() {
     <>
       <Header />
       <main></main>
+      <Input addItemHandler={addItemHandler} />
 
       <Statistics stats={stats} />
       <Footer />
