@@ -21,3 +21,11 @@
   font-weight: 500;
   font-size: 1.4rem;
 }
+
+.footer--text--btn {
+  cursor: pointer;
+}
+
+.footer--text--btn:hover {
+  color: black;
+}

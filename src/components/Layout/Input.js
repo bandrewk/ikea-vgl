@@ -73,7 +73,7 @@ const Input = (props) => {
         {!hasError && (
           <p className={classes.inputDesc}>
             Artikelnummer mit oder ohne Punkte eingeben und mit ENTER oder
-            `Hinzufuegen` bestätigen.
+            `Hinzufügen` bestätigen.
           </p>
         )}
       </div>
