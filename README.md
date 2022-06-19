@@ -1,3 +1,4 @@
+
 # IKEA Germany and Poland price comparison
 
 Sourcecode of www.ikea-vgl.de
@@ -10,6 +11,7 @@ If you're living in Germany or any other adjacent country and looking for a new 
 
 Happy shopping.
 
-Note that this tool uses the average EUR to PLN conversation rate of **4.5897** and not up-to date prices. A price-feed might be implemented in further versions.
+## Notes
 
-# Changelog
+ - It uses the average EUR to PLN conversation rate of **4.5897**, not live prices. A price-feed might be implemented in further versions.
+ - The page is currently only issued in German language.
