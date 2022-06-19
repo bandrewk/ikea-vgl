@@ -200,6 +200,8 @@ function App() {
   return (
     <>
       <Header />
+      <main></main>
+      <Footer />
       <Container>
         <Sidebar
           stats={stats}
@@ -207,7 +209,6 @@ function App() {
           loadDemoHandler={loadDemoDataHandler}
         />
         <Content items={items} removeItemHandler={removeItemHandler} />
-        <Footer />
       </Container>
     </>
   );
