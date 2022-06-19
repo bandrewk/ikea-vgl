@@ -187,38 +187,6 @@ body {
 }
 
 /****************************************
-*** Section stats
-****************************************/
-.section-statistics {
-  padding: 4.8rem 0 9.6rem 0;
-  color: #4c4b4b;
-}
-
-.stats-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 1.4rem;
-  justify-content: center;
-}
-
-.stats-list ion-icon {
-  font-size: 2.4rem;
-}
-
-.stats-list--item {
-  font-size: 1.8rem;
-  display: flex;
-  align-items: center;
-  gap: 1.6rem;
-  line-height: 1.2;
-}
-
-.stats-list--item span span {
-  font-weight: 600;
-}
-
-/****************************************
 *** Section List
 ****************************************/
 .section-list {
@@ -303,6 +271,38 @@ body {
 
 .item--btn-remove:hover {
   transform: scale(1.1);
+}
+
+/****************************************
+*** Section statistics
+****************************************/
+.section-statistics {
+  padding: 4.8rem 0 9.6rem 0;
+  color: #4c4b4b;
+}
+
+.stats-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  justify-content: center;
+}
+
+.stats-list ion-icon {
+  font-size: 2.4rem;
+}
+
+.stats-list--item {
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  line-height: 1.2;
+}
+
+.stats-list--item span span {
+  font-weight: 600;
 }
 
 /****************************************

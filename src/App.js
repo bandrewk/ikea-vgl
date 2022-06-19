@@ -3,6 +3,7 @@ import Header from "./components/Layout/Header";
 import Footer from "./components/Layout/Footer";
 import Sidebar from "./components/Layout/Sidebar";
 import Content from "./components/Layout/Content";
+import Statistics from "./components/Layout/Statistics";
 
 import { useEffect, useState, useCallback } from "react";
 import {
@@ -201,7 +202,10 @@ function App() {
     <>
       <Header />
       <main></main>
+
+      <Statistics stats={stats} />
       <Footer />
+
       <Container>
         <Sidebar
           stats={stats}
