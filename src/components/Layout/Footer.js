@@ -17,6 +17,14 @@ const Footer = (props) => {
           </a>{" "}
           ❤️
         </p>
+        <p
+          className={`${classes["footer--text"]} ${classes["footer--text--btn"]}`}
+          onClick={() => {
+            props.loadDemoHandler();
+          }}
+        >
+          Click here to load demo content.
+        </p>
 
         <br />
         <p className={classes["footer--text"]}>

@@ -37,6 +37,10 @@
   grid-template-columns: repeat(5, 1fr);
 }
 
+.grid--gap-sm {
+  gap: 4.8rem;
+}
+
 .heading-primary,
 .heading-secondary,
 .heading-tertiary {
@@ -71,4 +75,9 @@
 .header {
   text-align: center;
   margin-top: 6.4rem;
+}
+
+/* Disable popup text from ion-icons */
+ion-icon {
+  pointer-events: none;
 }

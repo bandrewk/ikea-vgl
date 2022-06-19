@@ -12,6 +12,7 @@ import {
   EUR_TO_PLN_RATE_AVG,
 } from "./components/config";
 import Input from "./components/Layout/Input";
+import ItemList from "./components/Item/ItemList";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -202,20 +203,21 @@ function App() {
   return (
     <>
       <Header />
-      <main></main>
-      <Input addItemHandler={addItemHandler} />
+      <main>
+        <Input addItemHandler={addItemHandler} />
+        <ItemList items={items} removeItemHandler={removeItemHandler} />
+        <Statistics stats={stats} />
+      </main>
+      <Footer loadDemoHandler={loadDemoDataHandler} />
 
-      <Statistics stats={stats} />
-      <Footer />
-
-      <Container>
+      {/* <Container>
         <Sidebar
           stats={stats}
           addItemHandler={addItemHandler}
           loadDemoHandler={loadDemoDataHandler}
         />
         <Content items={items} removeItemHandler={removeItemHandler} />
-      </Container>
+      </Container> */}
     </>
   );
 }
