@@ -1,28 +1,5 @@
 /* Header */
-
 .header {
-  grid-area: header;
-  border: 1px;
-
-  box-shadow: var(--global-boxShadow) 0px 6px 24px 0px,
-    var(--global-boxBorder) 0px 0px 0px 1px;
-}
-
-.header h1 {
   text-align: center;
-  font-weight: 600;
-  font-size: 4rem;
-}
-
-@media screen and (max-width: 750px) {
-  .header h1 {
-    text-align: center;
-    font-weight: 600;
-    font-size: 2rem;
-  }
-}
-
-.ikea {
-  color: var(--global-yellow);
-  letter-spacing: 0.4rem;
+  margin-top: 6.4rem;
 }
