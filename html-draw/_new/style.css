@@ -1,3 +1,23 @@
+/*
+
+---Font-weight:
+Normal: 400
+Heading: 700
+Bold: 600
+Semi-bold: 500
+
+---Colors: 
+
+Background: #fffbfa
+#8ce99a
+
+Font Colors: 
+Normal: #333
+Lighter: #4c4b4b
+
+
+*/
+
 * {
   padding: 0;
   margin: 0;
@@ -6,7 +26,6 @@
 
 html {
   font-size: 62.5%;
-
   scroll-behavior: smooth;
 }
 
@@ -16,7 +35,7 @@ body {
   font-weight: 400;
 
   background-color: #fffbfa;
-  color: #222;
+  color: #333;
 }
 
 /****************************************/
@@ -85,16 +104,6 @@ body {
   letter-spacing: 2px;
 }
 
-.subheading {
-  display: block;
-  font-size: 1.6rem;
-  font-weight: 500;
-  color: #cf711f;
-  text-transform: uppercase;
-  margin-bottom: 1.6rem;
-  letter-spacing: 0.75px;
-}
-
 .header {
   text-align: center;
   margin-top: 6.4rem;
@@ -120,28 +129,27 @@ body {
 
 .section-input label {
   grid-column: 1 / -1;
-  color: #4c4b4b;
+  color: #333;
   letter-spacing: 2px;
 }
 
 .section-input form input {
   background-color: inherit;
-  padding: 1.2rem;
+  padding: 1.2rem 1.2rem 0 1.2rem;
   width: 100%;
 
   font-family: inherit;
   font-size: 2.4rem;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 
   border-color: #4c4b4b;
-  color: #333232;
-  /* border-radius: 9px; */
-  /* border-bottom-left-radius: 9px; */
-  /* border-top-right-radius: 9px; */
+  color: #333;
+
   border: none;
   border-bottom: 2px dashed #4c4b4b;
 
   grid-column: 1;
+  align-self: flex-end;
 }
 
 .section-input form button {
@@ -152,18 +160,13 @@ body {
 
 .section-input *:focus {
   outline: none;
-
-  /* box-shadow: 0 0 0 0.8rem rgba(253, 242, 233, 0.5); */
 }
 
 .btn-primary {
   display: inline-block;
   background-color: inherit;
   padding: 1.6rem 3.2rem;
-  /* border-radius: 9px; */
-  /* transition: all 300ms; */
 
-  /* Only for .btn */
   border: 2px solid #4c4b4b;
   cursor: pointer;
 
@@ -172,13 +175,47 @@ body {
   font-weight: 600;
   font-size: 2rem;
   text-decoration: none;
+
+  transition: all 0.3s;
 }
 
 .btn-primary:hover,
 .btn-primary:active {
   background-color: #fdf2e9;
-  /*border: 3px solid #fff;*/
   box-shadow: inset 0 0 0 3px #fff;
+  color: #333;
+}
+
+/****************************************
+*** Section stats
+****************************************/
+.section-statistics {
+  padding: 4.8rem 0 9.6rem 0;
+  color: #4c4b4b;
+}
+
+.stats-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  justify-content: center;
+}
+
+.stats-list ion-icon {
+  font-size: 2.4rem;
+}
+
+.stats-list--item {
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  line-height: 1.2;
+}
+
+.stats-list--item span span {
+  font-weight: 600;
 }
 
 /****************************************
@@ -194,6 +231,10 @@ body {
   position: relative;
 
   justify-self: stretch;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .item:hover {
@@ -215,13 +256,14 @@ body {
 }
 
 .item-title {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
+  line-height: 1.5;
   margin-bottom: 1rem;
   font-weight: 600;
 }
 
 .item-price {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
 }
 
 .item-price span {
@@ -243,6 +285,10 @@ body {
   font-weight: 600;
 }
 
+.item-discount.expensive {
+  background-color: #ffa8a8;
+}
+
 .item--btn-remove {
   position: absolute;
   right: 0.3rem;
@@ -259,15 +305,19 @@ body {
   transform: scale(1.1);
 }
 
+/****************************************
+*** Section Footer
+****************************************/
 .footer {
   border-top: 2px solid rgba(76, 75, 75, 0.1);
   padding-top: 1.6rem;
+  padding: 1.6rem 0 3.2rem 0;
 }
 
 .footer--text {
   font-size: 1.2rem;
   line-height: 2;
-  color: #888;
+  color: #4c4b4b;
 }
 
 .footer--text span {
