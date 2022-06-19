@@ -198,16 +198,18 @@ function App() {
   };
 
   return (
-    <Container>
+    <>
       <Header />
-      <Sidebar
-        stats={stats}
-        addItemHandler={addItemHandler}
-        loadDemoHandler={loadDemoDataHandler}
-      />
-      <Content items={items} removeItemHandler={removeItemHandler} />
-      <Footer />
-    </Container>
+      <Container>
+        <Sidebar
+          stats={stats}
+          addItemHandler={addItemHandler}
+          loadDemoHandler={loadDemoDataHandler}
+        />
+        <Content items={items} removeItemHandler={removeItemHandler} />
+        <Footer />
+      </Container>
+    </>
   );
 }
 
