@@ -121,10 +121,15 @@ ion-icon {
 @media (max-width: 44em) {
   html {
     /*8px / 16px = 0.5*/
-    font-size: 50%;
+    font-size: 50% !important;
   }
+
   .grid--3-cols {
     grid-template-columns: 1fr;
     row-gap: 3.6rem;
+  }
+
+  .container {
+    padding: 0 2.4rem;
   }
 }
