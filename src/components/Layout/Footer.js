@@ -2,12 +2,18 @@ import classes from "./Footer.module.css";
 import metadata from "./../../metadata.json";
 
 const Footer = (props) => {
+  let version;
+  if (metadata.buildTag.length > 1)
+    version = `Version ${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision} ${metadata.buildTag}`;
+  else {
+    version = `Version ${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision}`;
+  }
+
   return (
     <footer className="container">
       <div className={classes.footer}>
         <p className={classes["footer--text"]}>
-          {`Version ${metadata.buildMajor}.${metadata.buildMinor}.${metadata.buildRevision} ${metadata.buildTag}`}
-          . &copy; Copyright 2022 bandrewk.{" "}
+          {version}. &copy; Copyright 2022 bandrewk.
           <a
             href="https://github.com/bandrewk/ikea-vgl"
             rel="noreferrer"
