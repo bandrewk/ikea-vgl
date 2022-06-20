@@ -38,8 +38,11 @@ function App() {
     }
 
     const totalSaved = totalDEEur - totalPLEur;
-    const totalDiscountInPercentage =
+    let totalDiscountInPercentage =
       ((100 / totalDEEur) * totalPLEur - 100).toFixed(2) * -1;
+
+    // Fix NaN on invalid items
+    if (isNaN(totalDiscountInPercentage)) totalDiscountInPercentage = 0;
 
     // Update data
     setStats({
