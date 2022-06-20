@@ -32,7 +32,9 @@ const Statistics = (props) => {
             </li>
             <li className={classes["stats-list--item"]}>
               <ion-icon name="chevron-forward-outline"></ion-icon>
-              <span>Anzahl an Produkten: {props.stats.totalItems} Stück</span>
+              <span>
+                Anzahl an Produkten: <span>{props.stats.totalItems} Stück</span>
+              </span>
             </li>
           </ul>
         </div>

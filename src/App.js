@@ -21,6 +21,15 @@ function App() {
     totalItems: 0,
   });
 
+  useEffect(() => {
+    const items = JSON.parse(localStorage.getItem("ikea-items"));
+
+    console.log(items);
+    if (items) {
+      setItems(items);
+    }
+  }, []);
+
   /**
    * Update sidebar stats.
    */
@@ -53,6 +62,8 @@ function App() {
       totalDiscount: totalSaved.toFixed(2),
       totalItems: items.length,
     });
+
+    localStorage.setItem("ikea-items", JSON.stringify(items));
   };
 
   useEffect(updateStats, [items]);
@@ -195,6 +206,7 @@ function App() {
     // Clear all items?
     if (itemKey === null) {
       setItems([]);
+      localStorage.clear();
     }
 
     // Remove single item
