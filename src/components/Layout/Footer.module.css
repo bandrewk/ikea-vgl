@@ -1,17 +1,31 @@
+/****************************************
+*** Section footer
+****************************************/
 .footer {
-  grid-area: footer;
-  box-shadow: var(--global-boxShadow) 0px 6px 24px 0px,
-    var(--global-boxBorder) 0px 0px 0px 1px;
-  font-size: 0.8rem;
-}
-
-.footer p {
-  text-align: center;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  border-top: 2px solid rgba(76, 75, 75, 0.1);
+  padding-top: 1.6rem;
+  padding: 1.6rem 0 3.2rem 0;
 }
 
 .footer a {
   text-decoration: none;
-  color: aqua;
+}
+
+.footer--text {
+  font-size: 1.2rem;
+  line-height: 2;
+  color: #4c4b4b;
+}
+
+.footer--text span {
+  font-weight: 500;
+  font-size: 1.4rem;
+}
+
+.footer--text--btn {
+  cursor: pointer;
+}
+
+.footer--text--btn:hover {
+  color: black;
 }
