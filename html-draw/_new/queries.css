@@ -27,9 +27,4 @@
     grid-template-columns: 1fr;
     row-gap: 3.6rem;
   }
-
-  .section-input form {
-    grid-template-columns: 1fr;
-    row-gap: 2.4rem;
-  }
 }
