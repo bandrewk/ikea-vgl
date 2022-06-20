@@ -19,3 +19,8 @@
 .remove-margin {
   margin: 0;
 }
+
+.section-list--no-entries {
+  font-size: 1.6rem;
+  grid-column: 1 / -1;
+}

@@ -30,6 +30,12 @@ const ItemList = (props) => {
         </div>
 
         <div className="grid grid--3-cols margin-top-sm grid--gap-sm">
+          {displayItems.length === 0 && (
+            <p className={classes["section-list--no-entries"]}>
+              Keine Einträge vorhanden. Füge deinen ersten Artikel in der
+              Eingabe hinzu.
+            </p>
+          )}
           {displayItems}
         </div>
       </div>

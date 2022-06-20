@@ -46,7 +46,7 @@ const Input = (props) => {
     <section className={classes["section-input"]}>
       <div className="container">
         <form onSubmit={onSubmitHandler}>
-          <label for="articleNumber" className="heading-tertiary">
+          <label htmlFor="articleNumber" className="heading-tertiary">
             Artikelnummer
           </label>
 
@@ -60,7 +60,6 @@ const Input = (props) => {
             placeholder="404.567.57"
             value={inputText}
             onChange={onInputChangeHandler}
-            a
           />
           <button
             disabled={hasError ? true : false}
