@@ -189,9 +189,15 @@ function App() {
   };
   /**
    * Removes an item from the app
-   * @param {number} itemKey Item identifier key
+   * @param {number} itemKey Item identifier key. When null all items will be removed.
    */
   const removeItemHandler = (itemKey) => {
+    // Clear all items?
+    if (itemKey === null) {
+      setItems([]);
+    }
+
+    // Remove single item
     console.log(`Item ${itemKey} wishes to be removed.`);
 
     setItems((prevState) => {

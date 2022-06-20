@@ -15,7 +15,19 @@ const ItemList = (props) => {
   return (
     <section className={classes["section-list"]}>
       <div className="container">
-        <p className="heading-tertiary">Artikelliste</p>
+        <div className={classes.heading}>
+          <p className={`heading-tertiary ${classes["remove-margin"]} `}>
+            Artikelliste
+          </p>
+          <button
+            className="btn--icon"
+            onClick={() => {
+              props.removeItemHandler(null);
+            }}
+          >
+            <ion-icon name="trash-bin-outline"></ion-icon>
+          </button>
+        </div>
 
         <div className="grid grid--3-cols margin-top-sm grid--gap-sm">
           {displayItems}
