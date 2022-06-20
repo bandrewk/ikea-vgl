@@ -1,8 +1,5 @@
-import Container from "./components/Layout/Container";
 import Header from "./components/Layout/Header";
 import Footer from "./components/Layout/Footer";
-import Sidebar from "./components/Layout/Sidebar";
-import Content from "./components/Layout/Content";
 import Statistics from "./components/Layout/Statistics";
 
 import { useEffect, useState, useCallback } from "react";
@@ -209,15 +206,6 @@ function App() {
         <Statistics stats={stats} />
       </main>
       <Footer loadDemoHandler={loadDemoDataHandler} />
-
-      {/* <Container>
-        <Sidebar
-          stats={stats}
-          addItemHandler={addItemHandler}
-          loadDemoHandler={loadDemoDataHandler}
-        />
-        <Content items={items} removeItemHandler={removeItemHandler} />
-      </Container> */}
     </>
   );
 }
