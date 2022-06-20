@@ -1,0 +1,30 @@
+/****************************************/
+/* BELOW 1050px (Smaller PC)*/
+/****************************************/
+
+@media (max-width: 65em) {
+  .grid--3-cols {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 3.6rem;
+  }
+
+  .section-input form {
+    grid-template-columns: 1fr;
+    row-gap: 2.4rem;
+  }
+}
+
+/****************************************/
+/* BELOW 700px (Smaller Tablets)*/
+/* 700px/16px =~44*/
+/****************************************/
+@media (max-width: 44em) {
+  html {
+    /*8px / 16px = 0.5*/
+    font-size: 50%;
+  }
+  .grid--3-cols {
+    grid-template-columns: 1fr;
+    row-gap: 3.6rem;
+  }
+}

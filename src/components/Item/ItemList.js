@@ -13,26 +13,33 @@ const ItemList = (props) => {
   });
 
   return (
-    <ul>
-      <li>
-        <div className={classes.itemContainerHeader}>
-          <p>Artikel-Nr.</p>
-          <p>Name</p>
-          <p>DE</p>
-          <p>PLN</p>
-          <p>Rabatt</p>
-          <p>Status</p>
-          <p></p>
+    <section className={classes["section-list"]}>
+      <div className="container">
+        <div className={classes.heading}>
+          <p className={`heading-tertiary ${classes["remove-margin"]} `}>
+            Artikelliste
+          </p>
+          <button
+            className="btn--icon"
+            onClick={() => {
+              props.removeItemHandler(null);
+            }}
+          >
+            <ion-icon name="trash-bin-outline"></ion-icon>
+          </button>
         </div>
-      </li>
-      {displayItems.length === 0 && (
-        <p style={{ marginLeft: "1rem" }}>
-          Keine Einträge vorhanden. Füge deinen ersten Artikel in der Eingabe
-          hinzu. 😊
-        </p>
-      )}
-      {displayItems}
-    </ul>
+
+        <div className="grid grid--3-cols margin-top-sm grid--gap-sm">
+          {displayItems.length === 0 && (
+            <p className={classes["section-list--no-entries"]}>
+              Keine Einträge vorhanden. Füge deinen ersten Artikel in der
+              Eingabe hinzu.
+            </p>
+          )}
+          {displayItems}
+        </div>
+      </div>
+    </section>
   );
 };
 

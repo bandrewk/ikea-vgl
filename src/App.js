@@ -1,8 +1,6 @@
-import Container from "./components/Layout/Container";
 import Header from "./components/Layout/Header";
 import Footer from "./components/Layout/Footer";
-import Sidebar from "./components/Layout/Sidebar";
-import Content from "./components/Layout/Content";
+import Statistics from "./components/Layout/Statistics";
 
 import { useEffect, useState, useCallback } from "react";
 import {
@@ -10,6 +8,8 @@ import {
   API_URL_PLN,
   EUR_TO_PLN_RATE_AVG,
 } from "./components/config";
+import Input from "./components/Layout/Input";
+import ItemList from "./components/Item/ItemList";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -20,6 +20,15 @@ function App() {
     totalDiscount: 0,
     totalItems: 0,
   });
+
+  /* Load items from storage */
+  useEffect(() => {
+    const items = JSON.parse(localStorage.getItem("ikea-items"));
+
+    if (items) {
+      setItems(items);
+    }
+  }, []);
 
   /**
    * Update sidebar stats.
@@ -38,8 +47,11 @@ function App() {
     }
 
     const totalSaved = totalDEEur - totalPLEur;
-    const totalDiscountInPercentage =
+    let totalDiscountInPercentage =
       ((100 / totalDEEur) * totalPLEur - 100).toFixed(2) * -1;
+
+    // Fix NaN on invalid items
+    if (isNaN(totalDiscountInPercentage)) totalDiscountInPercentage = 0;
 
     // Update data
     setStats({
@@ -50,6 +62,9 @@ function App() {
       totalDiscount: totalSaved.toFixed(2),
       totalItems: items.length,
     });
+
+    /* Save items to storage */
+    localStorage.setItem("ikea-items", JSON.stringify(items));
   };
 
   useEffect(updateStats, [items]);
@@ -186,10 +201,17 @@ function App() {
   };
   /**
    * Removes an item from the app
-   * @param {number} itemKey Item identifier key
+   * @param {number} itemKey Item identifier key. When null all items will be removed.
    */
   const removeItemHandler = (itemKey) => {
-    console.log(`Item ${itemKey} wishes to be removed.`);
+    // Clear all items?
+    if (itemKey === null) {
+      setItems([]);
+      localStorage.clear();
+    }
+
+    // Remove single item
+    //console.log(`Item ${itemKey} wishes to be removed.`);
 
     setItems((prevState) => {
       const newArray = prevState.filter((item) => item.key !== itemKey);
@@ -198,16 +220,15 @@ function App() {
   };
 
   return (
-    <Container>
+    <>
       <Header />
-      <Sidebar
-        stats={stats}
-        addItemHandler={addItemHandler}
-        loadDemoHandler={loadDemoDataHandler}
-      />
-      <Content items={items} removeItemHandler={removeItemHandler} />
-      <Footer />
-    </Container>
+      <main>
+        <Input addItemHandler={addItemHandler} />
+        <ItemList items={items} removeItemHandler={removeItemHandler} />
+        <Statistics stats={stats} />
+      </main>
+      <Footer loadDemoHandler={loadDemoDataHandler} />
+    </>
   );
 }
 
