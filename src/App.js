@@ -21,10 +21,10 @@ function App() {
     totalItems: 0,
   });
 
+  /* Load items from storage */
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("ikea-items"));
 
-    console.log(items);
     if (items) {
       setItems(items);
     }
@@ -63,6 +63,7 @@ function App() {
       totalItems: items.length,
     });
 
+    /* Save items to storage */
     localStorage.setItem("ikea-items", JSON.stringify(items));
   };
 
@@ -210,7 +211,7 @@ function App() {
     }
 
     // Remove single item
-    console.log(`Item ${itemKey} wishes to be removed.`);
+    //console.log(`Item ${itemKey} wishes to be removed.`);
 
     setItems((prevState) => {
       const newArray = prevState.filter((item) => item.key !== itemKey);
