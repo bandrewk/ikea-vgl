@@ -10,13 +10,15 @@ const Item = (props) => {
         <p className={classes["item--articleNumber"]}>{articleId}</p>
         <p className={classes["item--title"]}>Artikel nicht gefunden!</p>
 
-        <a
+        <button
           className={classes["item--btn-remove"]}
-          href="#"
-          onClick={() => props.removeItemHandler(props.item.key)}
+          onClick={(e) => {
+            e.preventDefault();
+            props.removeItemHandler(props.item.key);
+          }}
         >
           <ion-icon name="close-circle-outline"></ion-icon>
-        </a>
+        </button>
       </div>
     );
   }
@@ -55,33 +57,16 @@ const Item = (props) => {
         {props.item.discountInPercentage} %
       </p>
 
-      {/* Make this a btn */}
-      <a
+      <button
         className={classes["item--btn-remove"]}
-        href="javascript:;"
         onClick={(e) => {
           e.preventDefault();
           props.removeItemHandler(props.item.key);
         }}
       >
         <ion-icon name="close-circle-outline"></ion-icon>
-      </a>
+      </button>
     </div>
-    // <div className={appliedClasses}>
-    //   <p>{articleId}</p>
-    //   <p>{itemName}</p>
-    //   <p>€ {props.item.priceDE}</p>
-    //   <p>{pricePLNInEur}</p>
-    //   <p>{props.item.discountInPercentage} %</p>
-    //   <p>{props.item.cheaperInPLN ? "🟢" : "🔴"}</p>
-
-    //   <p
-    //     className={classes.removeBtn}
-    //     onClick={() => props.removeItemHandler(props.item.key)}
-    //   >
-    //     ❌
-    //   </p>
-    // </div>
   );
 };
 

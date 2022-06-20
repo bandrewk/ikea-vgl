@@ -81,6 +81,8 @@
   transition: all 0.3s;
 
   cursor: pointer;
+
+  border: none;
 }
 
 .item--btn-remove:hover {
