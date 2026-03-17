@@ -4,6 +4,26 @@ const Item = (props) => {
   // Display article id separated by a dot like ikea does
   const articleId = `${props.item.id}`.match(/.{1,3}/g).join(".");
 
+  if (props.item.retired) {
+    return (
+      <div className={classes.item}>
+        <p className={classes["item--articleNumber"]}>{articleId}</p>
+        <p className={classes["item--title"]}>{props.item.name}</p>
+        <p className={classes["item--price"]}>Nicht mehr verfügbar</p>
+
+        <button
+          className={classes["item--btn-remove"]}
+          onClick={(e) => {
+            e.preventDefault();
+            props.removeItemHandler(props.item.key);
+          }}
+        >
+          <ion-icon name="close-circle-outline"></ion-icon>
+        </button>
+      </div>
+    );
+  }
+
   if (props.item.notFoundDE) {
     return (
       <div className={classes.item}>
