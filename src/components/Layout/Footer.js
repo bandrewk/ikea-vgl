@@ -13,15 +13,17 @@ const Footer = (props) => {
     <footer className="container">
       <div className={classes.footer}>
         <p className={classes["footer--text"]}>
-          {version}. &copy; Copyright 2022 bandrewk.
+          {version}. &copy; Copyright 2022-2026 bandrewk. All rights reserved.{" "}
           <a
             href="https://github.com/bandrewk/ikea-vgl"
             rel="noreferrer"
             target="_blank"
           >
-            OpenSource project
-          </a>{" "}
-          ❤️
+            <ion-icon name="logo-github"></ion-icon> GitHub
+          </a>
+        </p>
+        <p className={classes["footer--text"]}>
+          Wechselkurs: 1 EUR = {props.exchangeRate} PLN (ECB)
         </p>
         <p
           className={`${classes["footer--text"]} ${classes["footer--text--btn"]}`}
