@@ -7,12 +7,14 @@ import {
   API_URL_DE,
   API_URL_PLN,
   EUR_TO_PLN_RATE_AVG,
+  EXCHANGE_RATE_API,
 } from "./components/config";
 import Input from "./components/Layout/Input";
 import ItemList from "./components/Item/ItemList";
 
 function App() {
   const [items, setItems] = useState([]);
+  const [exchangeRate, setExchangeRate] = useState(EUR_TO_PLN_RATE_AVG);
   const [stats, setStats] = useState({
     totalPriceDE: 0,
     totalPricePLEur: 0,
@@ -28,6 +30,18 @@ function App() {
     if (items) {
       setItems(items);
     }
+  }, []);
+
+  /* Fetch live EUR/PLN exchange rate */
+  useEffect(() => {
+    fetch(EXCHANGE_RATE_API)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.rates?.PLN) {
+          setExchangeRate(data.rates.PLN);
+        }
+      })
+      .catch(() => {}); // fallback to hardcoded rate
   }, []);
 
   /**
@@ -87,8 +101,8 @@ function App() {
           const artikelArray = [...data.searchResultPage.products.main.items];
           const artikel = artikelArray[0].product;
 
-          const foreignPrice = artikel.priceNumeral.toFixed(2);
-          const priceInEUR = (foreignPrice / EUR_TO_PLN_RATE_AVG).toFixed(2);
+          const foreignPrice = artikel.salesPrice.numeral.toFixed(2);
+          const priceInEUR = (foreignPrice / exchangeRate).toFixed(2);
 
           item.pricePLN = foreignPrice;
           item.pricePLNInEur = priceInEUR;
@@ -114,7 +128,7 @@ function App() {
           return [item, ...prevState];
         });
       });
-  }, []);
+  }, [exchangeRate]);
 
   /**
    * Adds a new article to the app and starts fetching price and product data from IKEA DE and PL.
@@ -131,6 +145,28 @@ function App() {
           return response.json();
         })
         .then((data) => {
+          // Handle retired/discontinued products
+          const retired = data.searchResultPage.retiredProducts;
+          if (retired && retired.length > 0 && data.searchResultPage.products.main.items.length === 0) {
+            setItems((prevState) => [
+              {
+                key: Math.random().toString(),
+                id: newItem,
+                name: retired[0].name,
+                retired: true,
+                priceDE: 0,
+                pricePLN: 0,
+                pricePLNInEur: 0,
+                pricePLNFamily: 0,
+                pricePLNFamilyInEur: 0,
+                priceDiffInEur: 0,
+                discountInPercentage: 0,
+              },
+              ...prevState,
+            ]);
+            return;
+          }
+
           try {
             const artikelArray = [...data.searchResultPage.products.main.items];
             const artikel = artikelArray[0].product;
@@ -140,7 +176,7 @@ function App() {
               key: Math.random().toString(),
               id: newItem,
               name: `${artikel.name} ${artikel.typeName}`,
-              priceDE: artikel.priceNumeral.toFixed(2),
+              priceDE: artikel.salesPrice.numeral.toFixed(2),
               pricePLN: 0,
               pricePLNInEur: 0,
               pricePLNFamily: 0, // I swear I saw them family prices in the JSON response from IKEA at some point but I wasn't able to find them again. Stays here but is unused atm.
@@ -227,7 +263,7 @@ function App() {
         <ItemList items={items} removeItemHandler={removeItemHandler} />
         <Statistics stats={stats} />
       </main>
-      <Footer loadDemoHandler={loadDemoDataHandler} />
+      <Footer loadDemoHandler={loadDemoDataHandler} exchangeRate={exchangeRate} />
     </>
   );
 }
