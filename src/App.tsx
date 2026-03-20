@@ -12,7 +12,7 @@ import classes from "./App.module.css";
 
 export default function App() {
   const { exchangeRate } = useExchangeRate();
-  const { items, stats, addItem, removeItem, loadDemoData, setItems } =
+  const { items, stats, addItem, removeItem, loadDemoData, loadKitchenDemo, setItems } =
     useIkeaSearch(exchangeRate);
 
   const hasItems = items.length > 0;
@@ -48,7 +48,7 @@ export default function App() {
           </div>
         )}
       </main>
-      <Footer exchangeRate={exchangeRate} onLoadDemo={loadDemoData} />
+      <Footer exchangeRate={exchangeRate} onLoadDemo={loadDemoData} onLoadKitchen={loadKitchenDemo} />
     </Layout>
   );
 }
