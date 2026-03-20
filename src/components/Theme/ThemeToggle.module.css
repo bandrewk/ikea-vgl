@@ -1,0 +1,21 @@
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background-color: var(--card-alt);
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+  flex-shrink: 0;
+}
+
+.toggle:hover {
+  background-color: var(--yellow);
+  color: var(--text);
+  border-color: var(--yellow);
+  transform: scale(1.05);
+}
