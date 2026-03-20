@@ -3,6 +3,14 @@
   padding: var(--s-4) var(--s-6);
 }
 
+.disclaimer {
+  max-width: 1280px;
+  margin: 0 auto var(--s-3);
+  font-size: var(--fs-11);
+  color: var(--text-3);
+  text-align: center;
+}
+
 .inner {
   max-width: 1280px;
   margin: 0 auto;

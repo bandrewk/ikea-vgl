@@ -21,6 +21,10 @@ export default function Footer({ exchangeRate, onLoadDemo, onLoadKitchen }: Foot
 
   return (
     <footer className={classes.footer}>
+      <p className={classes.disclaimer}>
+        Dieses Projekt steht in keiner Verbindung zur IKEA Deutschland GmbH &amp; Co. KG. IKEA ist
+        eine eingetragene Marke der jeweiligen Rechteinhaber.
+      </p>
       <div className={classes.inner}>
         <div className={classes.left}>
           <span className={classes.tag}>v{APP_VERSION}</span>
