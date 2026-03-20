@@ -4,11 +4,21 @@ import classes from "./Footer.module.css";
 
 interface FooterProps {
   exchangeRate: number;
-  onLoadDemo: () => void;
-  onLoadKitchen: () => void;
+  onLoadDemo: () => boolean;
+  onLoadKitchen: () => boolean;
 }
 
+const WARN_MSG = "Bitte zuerst alle Artikel löschen, um die Demo zu laden.";
+
 export default function Footer({ exchangeRate, onLoadDemo, onLoadKitchen }: FooterProps) {
+  const handleDemo = () => {
+    if (!onLoadDemo()) alert(WARN_MSG);
+  };
+
+  const handleKitchen = () => {
+    if (!onLoadKitchen()) alert(WARN_MSG);
+  };
+
   return (
     <footer className={classes.footer}>
       <div className={classes.inner}>
@@ -27,12 +37,14 @@ export default function Footer({ exchangeRate, onLoadDemo, onLoadKitchen }: Foot
           >
             <Github size={12} /> GitHub
           </a>
+          <span className={classes.sep}>&middot;</span>
+          <span className={classes.copy}>&copy; 2022–2026 bandrewk</span>
         </div>
         <div className={classes.right}>
-          <button className={classes.demoBtn} onClick={onLoadDemo}>
+          <button className={classes.demoBtn} onClick={handleDemo}>
             Demo laden
           </button>
-          <button className={classes.kitchenBtn} onClick={onLoadKitchen}>
+          <button className={classes.kitchenBtn} onClick={handleKitchen}>
             Beispielküche 🍳
           </button>
         </div>

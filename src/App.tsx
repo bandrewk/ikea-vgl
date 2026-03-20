@@ -12,7 +12,7 @@ import classes from "./App.module.css";
 
 export default function App() {
   const { exchangeRate } = useExchangeRate();
-  const { items, stats, addItem, removeItem, updateQty, loadDemoData, loadKitchenDemo, setItems } =
+  const { items, stats, addItem, removeItem, updateQty, loadDemoData, loadKitchenDemo, importItems } =
     useIkeaSearch(exchangeRate);
 
   const hasItems = items.length > 0;
@@ -37,14 +37,18 @@ export default function App() {
         <ItemGrid items={items} onRemoveItem={removeItem} onUpdateQty={updateQty} />
 
         {/* Bottom bento row: Chart + Export */}
-        {hasItems && (
+        {hasItems ? (
           <div className={classes.bentoBottom}>
             <div className={classes.chartCard}>
               <PriceChart items={items} />
             </div>
             <div className={classes.exportCard}>
-              <ExportPanel items={items} stats={stats} onImport={setItems} />
+              <ExportPanel items={items} stats={stats} onImport={importItems} />
             </div>
+          </div>
+        ) : (
+          <div className={classes.exportCard}>
+            <ExportPanel items={items} stats={stats} onImport={importItems} />
           </div>
         )}
       </main>

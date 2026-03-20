@@ -27,6 +27,7 @@ export function useIkeaSearch(exchangeRate: number) {
   const [items, setItems] = useLocalStorage<IkeaItem[]>("ikea-items", []);
   const itemsRef = useRef(items);
   itemsRef.current = items;
+  const demoLoadedRef = useRef(false);
 
   const stats: Statistics = useMemo(() => {
     let totalDEEur = 0;
@@ -96,7 +97,7 @@ export function useIkeaSearch(exchangeRate: number) {
 
   const getPLNStorePrice = useCallback(
     (item: IkeaItem) => {
-      fetch(`${API_URL_PLN}?q=${item.id}`)
+      fetch(`${API_URL_PLN}?${new URLSearchParams({ q: item.id })}`)
         .then((response) => {
           if (!response.ok) throw new Error("Response from IKEA PLN not ok");
           return response.json();
@@ -146,7 +147,7 @@ export function useIkeaSearch(exchangeRate: number) {
         return;
       }
 
-      fetch(`${API_URL_DE}?q=${articleId}`)
+      fetch(`${API_URL_DE}?${new URLSearchParams({ q: articleId })}`)
         .then((response) => {
           if (!response.ok) throw new Error("Response from IKEA is not ok.");
           return response.json();
@@ -217,6 +218,7 @@ export function useIkeaSearch(exchangeRate: number) {
     (itemKey: string | null) => {
       if (itemKey === null) {
         setItems([]);
+        demoLoadedRef.current = false;
         return;
       }
       setItems((prev) => prev.filter((item) => item.key !== itemKey));
@@ -224,8 +226,9 @@ export function useIkeaSearch(exchangeRate: number) {
     [setItems]
   );
 
-  const loadDemoData = useCallback(() => {
-    if (items.length > 0) return;
+  const loadDemoData = useCallback((): boolean => {
+    if (itemsRef.current.length > 0 || demoLoadedRef.current) return false;
+    demoLoadedRef.current = true;
     const demoIds = [
       "50205481",
       "00205501",
@@ -239,15 +242,29 @@ export function useIkeaSearch(exchangeRate: number) {
       "12312312",
       "60335199",
     ];
-    demoIds.forEach(addItem);
-  }, [items.length, addItem]);
+    demoIds.forEach((id) => addItem(id));
+    return true;
+  }, [addItem]);
 
-  const loadKitchenDemo = useCallback(() => {
-    if (items.length > 0) return;
+  const loadKitchenDemo = useCallback((): boolean => {
+    if (itemsRef.current.length > 0 || demoLoadedRef.current) return false;
+    demoLoadedRef.current = true;
     kitchenItems.forEach((item, i) => {
       setTimeout(() => addItem(item.articleId, item.qty), i * 200);
     });
-  }, [items.length, addItem]);
+    return true;
+  }, [addItem]);
 
-  return { items, stats, addItem, removeItem, updateQty, loadDemoData, loadKitchenDemo, setItems };
+  const importItems = useCallback(
+    (imported: IkeaItem[]) => {
+      setItems([]);
+      demoLoadedRef.current = false;
+      imported.forEach((item, i) => {
+        setTimeout(() => addItem(item.id, item.qty), i * 200);
+      });
+    },
+    [addItem, setItems]
+  );
+
+  return { items, stats, addItem, removeItem, updateQty, loadDemoData, loadKitchenDemo, importItems, setItems };
 }

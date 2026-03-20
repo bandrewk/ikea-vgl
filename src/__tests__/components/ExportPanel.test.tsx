@@ -32,20 +32,23 @@ const stats: Statistics = {
 };
 
 describe("ExportPanel", () => {
-  it("renders export buttons", () => {
+  it("renders export and import buttons when items exist", () => {
     render(
       <ExportPanel items={items} stats={stats} onImport={vi.fn()} />
     );
     expect(screen.getByText("CSV")).toBeInTheDocument();
     expect(screen.getByText("Excel")).toBeInTheDocument();
     expect(screen.getByText(/Importieren/)).toBeInTheDocument();
+    expect(screen.getByText(/Export \/ Import/)).toBeInTheDocument();
   });
 
-  it("disables export buttons when no items", () => {
+  it("hides export buttons when no items, shows only import", () => {
     render(
       <ExportPanel items={[]} stats={{ ...stats, totalItems: 0 }} onImport={vi.fn()} />
     );
-    expect(screen.getByText("CSV").closest("button")).toBeDisabled();
-    expect(screen.getByText("Excel").closest("button")).toBeDisabled();
+    expect(screen.queryByText("CSV")).not.toBeInTheDocument();
+    expect(screen.queryByText("Excel")).not.toBeInTheDocument();
+    expect(screen.getByText(/Importieren/)).toBeInTheDocument();
+    expect(screen.getByText("Import")).toBeInTheDocument();
   });
 });
