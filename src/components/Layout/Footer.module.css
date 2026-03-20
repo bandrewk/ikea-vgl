@@ -1,32 +1,115 @@
-/****************************************
-*** Section footer
-****************************************/
 .footer {
-  border-top: 2px solid rgba(76, 75, 75, 0.1);
-  padding-top: 1.6rem;
-  padding: 1.6rem 0 3.2rem 0;
+  margin-top: auto;
+  padding: var(--s-4) var(--s-6);
 }
 
-.footer a {
+.disclaimer {
+  max-width: 1280px;
+  margin: 0 auto var(--s-3);
+  font-size: var(--fs-11);
+  color: var(--text-3);
+  text-align: center;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.tag {
+  font-size: var(--fs-11);
+  font-weight: 600;
+  color: var(--text-3);
+  background: var(--card);
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border);
+}
+
+.sep {
+  color: var(--text-3);
+  font-size: var(--fs-11);
+}
+
+.rate {
+  font-size: var(--fs-11);
+  color: var(--text-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.copy {
+  font-size: var(--fs-11);
+  color: var(--text-3);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-11);
+  color: var(--text-3);
   text-decoration: none;
-  color: inherit;
-}
-
-.footer--text {
-  font-size: 1.2rem;
-  line-height: 2;
-  color: #4c4b4b;
-}
-
-.footer--text span {
   font-weight: 500;
-  font-size: 1.4rem;
+  transition: color var(--dur) var(--ease);
 }
 
-.footer--text--btn {
+.link:hover {
+  color: var(--text);
+}
+
+.demoBtn {
+  background: none;
+  border: 1px solid var(--border);
+  font-size: var(--fs-11);
+  color: var(--blue);
   cursor: pointer;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  transition: all var(--dur) var(--ease);
 }
 
-.footer--text--btn:hover {
-  color: black;
+.demoBtn:hover {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+}
+
+.kitchenBtn {
+  background: none;
+  border: 1px solid var(--yellow);
+  font-size: var(--fs-11);
+  color: var(--text-2);
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  transition: all var(--dur) var(--ease);
+}
+
+.kitchenBtn:hover {
+  background: var(--yellow);
+  color: var(--text);
+  border-color: var(--yellow);
 }
