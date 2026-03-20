@@ -23,8 +23,23 @@ function createEmptyItem(id: string, overrides: Partial<IkeaItem> = {}): IkeaIte
   };
 }
 
+function isValidItem(item: unknown): item is IkeaItem {
+  if (typeof item !== "object" || item === null) return false;
+  const i = item as Record<string, unknown>;
+  return (
+    typeof i.key === "string" &&
+    typeof i.id === "string" &&
+    typeof i.priceDE === "number" &&
+    typeof i.pricePLN === "number" &&
+    typeof i.pricePLNInEur === "number" &&
+    typeof i.discountInPercentage === "number" &&
+    typeof i.qty === "number"
+  );
+}
+
 export function useIkeaSearch(exchangeRate: number) {
-  const [items, setItems] = useLocalStorage<IkeaItem[]>("ikea-items", []);
+  const [rawItems, setItems] = useLocalStorage<IkeaItem[]>("ikea-items", []);
+  const items = rawItems.filter(isValidItem);
   const itemsRef = useRef(items);
   itemsRef.current = items;
   const demoLoadedRef = useRef(false);
