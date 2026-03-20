@@ -12,7 +12,7 @@ import classes from "./App.module.css";
 
 export default function App() {
   const { exchangeRate } = useExchangeRate();
-  const { items, stats, addItem, removeItem, loadDemoData, loadKitchenDemo, setItems } =
+  const { items, stats, addItem, removeItem, updateQty, loadDemoData, loadKitchenDemo, setItems } =
     useIkeaSearch(exchangeRate);
 
   const hasItems = items.length > 0;
@@ -34,7 +34,7 @@ export default function App() {
         </div>
 
         {/* Items grid */}
-        <ItemGrid items={items} onRemoveItem={removeItem} />
+        <ItemGrid items={items} onRemoveItem={removeItem} onUpdateQty={updateQty} />
 
         {/* Bottom bento row: Chart + Export */}
         {hasItems && (

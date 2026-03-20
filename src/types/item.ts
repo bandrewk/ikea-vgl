@@ -2,6 +2,7 @@ export interface IkeaItem {
   key: string;
   id: string;
   name: string;
+  qty: number;
   priceDE: number;
   pricePLN: number;
   pricePLNInEur: number;
@@ -19,4 +20,6 @@ export interface Statistics {
   totalDiscountInPercentage: number;
   totalDiscount: number;
   totalItems: number;
+  missingPLCount: number;
+  missingPLValueDE: number;
 }

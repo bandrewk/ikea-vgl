@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { API_URL_DE, API_URL_PLN } from "../config/api";
 import { useLocalStorage } from "./useLocalStorage";
 import { kitchenItems } from "../config/kitchenDemo";
@@ -9,6 +9,7 @@ function createEmptyItem(id: string, overrides: Partial<IkeaItem> = {}): IkeaIte
     key: Math.random().toString(),
     id,
     name: "",
+    qty: 1,
     priceDE: 0,
     pricePLN: 0,
     pricePLNInEur: 0,
@@ -24,15 +25,23 @@ function createEmptyItem(id: string, overrides: Partial<IkeaItem> = {}): IkeaIte
 
 export function useIkeaSearch(exchangeRate: number) {
   const [items, setItems] = useLocalStorage<IkeaItem[]>("ikea-items", []);
+  const itemsRef = useRef(items);
+  itemsRef.current = items;
 
   const stats: Statistics = useMemo(() => {
     let totalDEEur = 0;
     let totalPLEur = 0;
+    let missingPLCount = 0;
+    let missingPLValueDE = 0;
 
     for (const item of items) {
       if (item.priceDE > 0 && item.pricePLNInEur > 0) {
-        totalDEEur += item.priceDE;
-        totalPLEur += item.pricePLNInEur;
+        totalDEEur += item.priceDE * item.qty;
+        totalPLEur += item.pricePLNInEur * item.qty;
+      }
+      if (item.notFoundPL && item.priceDE > 0) {
+        missingPLCount += item.qty;
+        missingPLValueDE += item.priceDE * item.qty;
       }
     }
 
@@ -42,6 +51,8 @@ export function useIkeaSearch(exchangeRate: number) {
 
     if (isNaN(totalDiscountInPercentage)) totalDiscountInPercentage = 0;
 
+    const totalQty = items.reduce((sum, item) => sum + item.qty, 0);
+
     return {
       totalPriceDE: Math.round(totalDEEur * 100) / 100,
       totalPricePLEur: Math.round(totalPLEur * 100) / 100,
@@ -50,7 +61,9 @@ export function useIkeaSearch(exchangeRate: number) {
           ? Math.round(totalDiscountInPercentage * 100) / 100
           : 0,
       totalDiscount: Math.round(totalSaved * 100) / 100,
-      totalItems: items.length,
+      totalItems: totalQty,
+      missingPLCount,
+      missingPLValueDE: Math.round(missingPLValueDE * 100) / 100,
     };
   }, [items]);
 
@@ -121,6 +134,18 @@ export function useIkeaSearch(exchangeRate: number) {
 
   const addItem = useCallback(
     (articleId: string) => {
+      const normalizedId = articleId.replace(/\./g, "");
+      const existing = itemsRef.current.find((item) => item.id === normalizedId);
+
+      if (existing) {
+        setItems((prev) =>
+          prev.map((item) =>
+            item.key === existing.key ? { ...item, qty: item.qty + 1 } : item
+          )
+        );
+        return;
+      }
+
       fetch(`${API_URL_DE}?q=${articleId}`)
         .then((response) => {
           if (!response.ok) throw new Error("Response from IKEA is not ok.");
@@ -168,6 +193,23 @@ export function useIkeaSearch(exchangeRate: number) {
     [getPLNStorePrice, setItems]
   );
 
+  const updateQty = useCallback(
+    (itemKey: string, delta: number) => {
+      setItems((prev) =>
+        prev.reduce<IkeaItem[]>((acc, item) => {
+          if (item.key === itemKey) {
+            const newQty = item.qty + delta;
+            if (newQty > 0) acc.push({ ...item, qty: newQty });
+          } else {
+            acc.push(item);
+          }
+          return acc;
+        }, [])
+      );
+    },
+    [setItems]
+  );
+
   const removeItem = useCallback(
     (itemKey: string | null) => {
       if (itemKey === null) {
@@ -199,13 +241,23 @@ export function useIkeaSearch(exchangeRate: number) {
 
   const loadKitchenDemo = useCallback(() => {
     if (items.length > 0) return;
-    // Stagger API calls to avoid rate limiting
     kitchenItems.forEach((item, i) => {
-      for (let q = 0; q < item.qty; q++) {
-        setTimeout(() => addItem(item.articleId), (i * item.qty + q) * 200);
-      }
+      setTimeout(() => {
+        addItem(item.articleId);
+        if (item.qty > 1) {
+          setTimeout(() => {
+            setItems((prev) =>
+              prev.map((existing) =>
+                existing.id === item.articleId
+                  ? { ...existing, qty: item.qty }
+                  : existing
+              )
+            );
+          }, 100);
+        }
+      }, i * 200);
     });
-  }, [items.length, addItem]);
+  }, [items.length, addItem, setItems]);
 
-  return { items, stats, addItem, removeItem, loadDemoData, loadKitchenDemo, setItems };
+  return { items, stats, addItem, removeItem, updateQty, loadDemoData, loadKitchenDemo, setItems };
 }

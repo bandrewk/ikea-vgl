@@ -83,6 +83,24 @@
   color: var(--text-3);
 }
 
+.warning {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-2);
+  padding: var(--s-3);
+  background: var(--orange-bg);
+  color: var(--orange, #d97706);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-12);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.warning svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
 .count {
   font-size: var(--fs-12);
   color: var(--text-3);

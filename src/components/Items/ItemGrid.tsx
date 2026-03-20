@@ -6,9 +6,10 @@ import classes from "./ItemGrid.module.css";
 interface ItemGridProps {
   items: IkeaItem[];
   onRemoveItem: (key: string | null) => void;
+  onUpdateQty: (key: string, delta: number) => void;
 }
 
-export default function ItemGrid({ items, onRemoveItem }: ItemGridProps) {
+export default function ItemGrid({ items, onRemoveItem, onUpdateQty }: ItemGridProps) {
   return (
     <section className={classes.section}>
       <div className={classes.heading}>
@@ -37,6 +38,7 @@ export default function ItemGrid({ items, onRemoveItem }: ItemGridProps) {
               key={item.key}
               item={item}
               onRemove={(key) => onRemoveItem(key)}
+              onUpdateQty={onUpdateQty}
             />
           ))}
         </div>

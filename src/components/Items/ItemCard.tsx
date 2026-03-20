@@ -1,10 +1,11 @@
-import { X, ExternalLink, AlertTriangle } from "lucide-react";
+import { X, ExternalLink, AlertTriangle, Plus, Minus } from "lucide-react";
 import type { IkeaItem } from "../../types/item";
 import classes from "./ItemCard.module.css";
 
 interface ItemCardProps {
   item: IkeaItem;
   onRemove: (key: string) => void;
+  onUpdateQty: (key: string, delta: number) => void;
 }
 
 function formatArticleId(id: string) {
@@ -15,7 +16,7 @@ function formatPrice(price: number) {
   return price.toFixed(2);
 }
 
-export default function ItemCard({ item, onRemove }: ItemCardProps) {
+export default function ItemCard({ item, onRemove, onUpdateQty }: ItemCardProps) {
   const articleId = formatArticleId(item.id);
 
   if (item.retired) {
@@ -23,6 +24,9 @@ export default function ItemCard({ item, onRemove }: ItemCardProps) {
       <div className={`${classes.card} ${classes.cardDisabled}`}>
         <div className={classes.cardHeader}>
           <span className={classes.articleId}>{articleId}</span>
+          {item.qty > 1 && (
+            <span className={classes.qtyBadge}>×{item.qty}</span>
+          )}
           <button
             className={classes.removeBtn}
             onClick={() => onRemove(item.key)}
@@ -66,6 +70,9 @@ export default function ItemCard({ item, onRemove }: ItemCardProps) {
     <div className={classes.card}>
       <div className={classes.cardHeader}>
         <span className={classes.articleId}>{articleId}</span>
+        {item.qty > 1 && (
+          <span className={classes.qtyBadge}>×{item.qty}</span>
+        )}
         {!item.notFoundPL && (
           <span className={`${classes.badge} ${badgeClass}`}>
             {isCheaper ? "−" : "+"}
@@ -99,14 +106,20 @@ export default function ItemCard({ item, onRemove }: ItemCardProps) {
       <div className={classes.prices}>
         <div className={classes.priceRow}>
           <span className={classes.priceLabel}>🇩🇪 DE</span>
-          <span className={classes.priceValue}>€ {formatPrice(item.priceDE)}</span>
+          <span className={classes.priceValue}>
+            {item.qty > 1
+              ? `€ ${formatPrice(item.priceDE)} × ${item.qty} = € ${formatPrice(item.priceDE * item.qty)}`
+              : `€ ${formatPrice(item.priceDE)}`}
+          </span>
         </div>
         <div className={classes.priceRow}>
           <span className={classes.priceLabel}>🇵🇱 PL</span>
           <span className={classes.priceValue}>
             {item.notFoundPL
               ? "Nicht gefunden"
-              : `€ ${formatPrice(item.pricePLNInEur)}`}
+              : item.qty > 1
+                ? `€ ${formatPrice(item.pricePLNInEur)} × ${item.qty} = € ${formatPrice(item.pricePLNInEur * item.qty)}`
+                : `€ ${formatPrice(item.pricePLNInEur)}`}
           </span>
         </div>
         {item.pricePLN > 0 && (
@@ -117,6 +130,24 @@ export default function ItemCard({ item, onRemove }: ItemCardProps) {
             </span>
           </div>
         )}
+      </div>
+
+      <div className={classes.qtyControls}>
+        <button
+          className={classes.qtyBtn}
+          onClick={() => onUpdateQty(item.key, -1)}
+          aria-label="Menge verringern"
+        >
+          <Minus size={14} />
+        </button>
+        <span className={classes.qtyValue}>{item.qty}</span>
+        <button
+          className={classes.qtyBtn}
+          onClick={() => onUpdateQty(item.key, 1)}
+          aria-label="Menge erhöhen"
+        >
+          <Plus size={14} />
+        </button>
       </div>
     </div>
   );
