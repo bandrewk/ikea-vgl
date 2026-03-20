@@ -1,0 +1,130 @@
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+
+.label {
+  font-size: var(--fs-12);
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.inputRow {
+  display: flex;
+  gap: var(--s-3);
+  align-items: stretch;
+}
+
+.inputWrapper {
+  position: relative;
+  flex: 1;
+}
+
+.searchIcon {
+  position: absolute;
+  left: var(--s-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-3);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  padding: var(--s-4) var(--s-4) var(--s-4) 44px;
+  font-size: var(--fs-18);
+  letter-spacing: 3px;
+  font-weight: 500;
+  background-color: var(--card-alt);
+  color: var(--text);
+  border: 2px solid transparent;
+  border-radius: var(--r-md);
+  transition: all var(--dur) var(--ease);
+}
+
+.input::placeholder {
+  color: var(--text-3);
+  letter-spacing: 3px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--blue);
+  background-color: var(--input-bg);
+  box-shadow: 0 0 0 4px var(--blue-light);
+}
+
+.inputError {
+  border-color: var(--red) !important;
+}
+
+.inputError:focus {
+  box-shadow: 0 0 0 4px var(--red-bg) !important;
+}
+
+.button {
+  padding: var(--s-4) var(--s-6);
+  font-size: var(--fs-14);
+  font-weight: 600;
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: var(--r-md);
+  transition: all var(--dur) var(--ease);
+  white-space: nowrap;
+  min-width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error {
+  font-size: var(--fs-12);
+  color: var(--red);
+  font-weight: 500;
+}
+
+.hint {
+  font-size: var(--fs-12);
+  color: var(--text-3);
+}
+
+@media (max-width: 480px) {
+  .inputRow {
+    flex-direction: column;
+  }
+  .input {
+    font-size: var(--fs-16);
+  }
+}
