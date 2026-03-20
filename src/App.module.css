@@ -1,0 +1,53 @@
+.bentoTop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-6);
+}
+
+.bentoTop > *:only-child {
+  grid-column: 1 / -1;
+}
+
+.inputCard,
+.statsCard,
+.chartCard,
+.exportCard {
+  background: var(--card);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--border);
+  padding: var(--s-8);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--dur) var(--ease);
+}
+
+.inputCard:hover,
+.statsCard:hover,
+.chartCard:hover,
+.exportCard:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.bentoBottom {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--s-6);
+}
+
+@media (max-width: 900px) {
+  .bentoTop {
+    grid-template-columns: 1fr;
+  }
+  .bentoBottom {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .inputCard,
+  .statsCard,
+  .chartCard,
+  .exportCard {
+    padding: var(--s-5);
+    border-radius: var(--r-lg);
+  }
+}
