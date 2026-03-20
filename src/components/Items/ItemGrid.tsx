@@ -20,9 +20,9 @@ function sortItems(items: IkeaItem[], sort: SortOption): IkeaItem[] {
   const sorted = [...items];
   switch (sort) {
     case "discount-desc":
-      return sorted.sort((a, b) => b.discountInPercentage - a.discountInPercentage);
-    case "discount-asc":
       return sorted.sort((a, b) => a.discountInPercentage - b.discountInPercentage);
+    case "discount-asc":
+      return sorted.sort((a, b) => b.discountInPercentage - a.discountInPercentage);
     case "price-desc":
       return sorted.sort((a, b) => b.priceDE - a.priceDE);
     case "price-asc":
