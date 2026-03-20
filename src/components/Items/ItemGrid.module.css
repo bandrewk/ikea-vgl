@@ -1,0 +1,94 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: var(--fs-20);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.sortWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: var(--s-2) var(--s-3);
+  font-size: var(--fs-12);
+  font-weight: 600;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  transition: all var(--dur) var(--ease);
+}
+
+.sortSelect {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  padding-right: var(--s-1);
+}
+
+.sortSelect:focus-visible {
+  outline: none;
+}
+
+.clearBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-4);
+  font-size: var(--fs-12);
+  font-weight: 600;
+  color: var(--red);
+  background: var(--red-bg);
+  border: none;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+}
+
+.clearBtn:hover {
+  filter: brightness(0.95);
+  transform: scale(1.02);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--s-4);
+}
+
+.empty {
+  font-size: var(--fs-14);
+  color: var(--text-3);
+  text-align: center;
+  padding: var(--s-12) var(--s-6);
+  background: var(--card);
+  border-radius: var(--r-xl);
+  border: 2px dashed var(--border);
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
