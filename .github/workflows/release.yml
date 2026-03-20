@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -13,7 +16,7 @@ jobs:
 
       - name: Get version from package.json
         id: version
-        run: echo "version=$(node -p 'require(\"./package.json\").version')" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(node -e 'process.stdout.write(require("./package.json").version)')" >> "$GITHUB_OUTPUT"
 
       - name: Check if release already exists
         id: check
@@ -30,11 +33,8 @@ jobs:
         if: steps.check.outputs.exists == 'false'
         id: changelog
         run: |
-          # Extract the section for the current version from CHANGELOG.md
           version="${{ steps.version.outputs.version }}"
-          body=$(awk "/^## \\[$version\\]/{found=1; next} /^## \\[/{if(found) exit} found{print}" CHANGELOG.md)
-          # Write to file to preserve newlines
-          echo "$body" > release_notes.md
+          awk "/^## \\[$version\\]/{found=1; next} /^## \\[/{if(found) exit} found{print}" CHANGELOG.md > release_notes.md
 
       - name: Create GitHub release
         if: steps.check.outputs.exists == 'false'
