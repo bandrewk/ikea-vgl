@@ -133,14 +133,14 @@ export function useIkeaSearch(exchangeRate: number) {
   );
 
   const addItem = useCallback(
-    (articleId: string) => {
+    (articleId: string, qty = 1) => {
       const normalizedId = articleId.replace(/\./g, "");
       const existing = itemsRef.current.find((item) => item.id === normalizedId);
 
       if (existing) {
         setItems((prev) =>
           prev.map((item) =>
-            item.key === existing.key ? { ...item, qty: item.qty + 1 } : item
+            item.key === existing.key ? { ...item, qty: item.qty + qty } : item
           )
         );
         return;
@@ -162,6 +162,7 @@ export function useIkeaSearch(exchangeRate: number) {
               createEmptyItem(articleId, {
                 name: retired[0].name,
                 retired: true,
+                qty,
               }),
               ...prev,
             ]);
@@ -177,6 +178,7 @@ export function useIkeaSearch(exchangeRate: number) {
               priceDE: Math.round(artikel.salesPrice.numeral * 100) / 100,
               cheaperInPLN: true,
               url: artikel.pipUrl,
+              qty,
             })
           );
         })
@@ -185,6 +187,7 @@ export function useIkeaSearch(exchangeRate: number) {
             createEmptyItem(articleId, {
               notFoundDE: true,
               notFoundPL: true,
+              qty,
             }),
             ...prev,
           ]);
@@ -242,22 +245,9 @@ export function useIkeaSearch(exchangeRate: number) {
   const loadKitchenDemo = useCallback(() => {
     if (items.length > 0) return;
     kitchenItems.forEach((item, i) => {
-      setTimeout(() => {
-        addItem(item.articleId);
-        if (item.qty > 1) {
-          setTimeout(() => {
-            setItems((prev) =>
-              prev.map((existing) =>
-                existing.id === item.articleId
-                  ? { ...existing, qty: item.qty }
-                  : existing
-              )
-            );
-          }, 100);
-        }
-      }, i * 200);
+      setTimeout(() => addItem(item.articleId, item.qty), i * 200);
     });
-  }, [items.length, addItem, setItems]);
+  }, [items.length, addItem]);
 
   return { items, stats, addItem, removeItem, updateQty, loadDemoData, loadKitchenDemo, setItems };
 }
