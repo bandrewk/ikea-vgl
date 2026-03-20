@@ -17,11 +17,16 @@ interface PriceChartProps {
 export default function PriceChart({ items }: PriceChartProps) {
   const data = items
     .filter((item) => item.priceDE > 0 && item.pricePLNInEur > 0)
-    .map((item) => ({
-      name: item.name.length > 18 ? item.name.slice(0, 18) + "…" : item.name,
-      DE: item.priceDE,
-      PL: item.pricePLNInEur,
-    }));
+    .map((item) => {
+      const label = item.qty > 1
+        ? `${item.name.length > 14 ? item.name.slice(0, 14) + "…" : item.name} ×${item.qty}`
+        : item.name.length > 18 ? item.name.slice(0, 18) + "…" : item.name;
+      return {
+        name: label,
+        DE: Math.round(item.priceDE * item.qty * 100) / 100,
+        PL: Math.round(item.pricePLNInEur * item.qty * 100) / 100,
+      };
+    });
 
   if (data.length === 0) return null;
 

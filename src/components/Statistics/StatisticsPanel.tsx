@@ -1,4 +1,4 @@
-import { TrendingDown, ArrowRight } from "lucide-react";
+import { TrendingDown, ArrowRight, AlertTriangle } from "lucide-react";
 import type { Statistics } from "../../types/item";
 import classes from "./StatisticsPanel.module.css";
 
@@ -36,6 +36,17 @@ export default function StatisticsPanel({ stats }: StatisticsPanelProps) {
           <span className={classes.storePrice}>€ {stats.totalPricePLEur.toFixed(2)}</span>
         </div>
       </div>
+
+      {stats.missingPLCount > 0 && (
+        <div className={classes.warning}>
+          <AlertTriangle size={14} />
+          <span>
+            {stats.missingPLCount} {stats.missingPLCount === 1 ? "Produkt" : "Produkte"} (€{" "}
+            {stats.missingPLValueDE.toFixed(2)}) nicht in Polen verfügbar — nicht in Berechnung
+            enthalten
+          </span>
+        </div>
+      )}
 
       <div className={classes.count}>
         {stats.totalItems} {stats.totalItems === 1 ? "Produkt" : "Produkte"}

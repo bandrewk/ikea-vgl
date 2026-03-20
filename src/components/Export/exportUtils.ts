@@ -8,9 +8,12 @@ export function exportToCSV(items: IkeaItem[], stats: Statistics): void {
   const headers = [
     "Artikelnummer",
     "Name",
+    "Menge",
     "Preis DE (EUR)",
     "Preis PL (PLN)",
     "Preis PL (EUR)",
+    "Gesamt DE (EUR)",
+    "Gesamt PL (EUR)",
     "Rabatt %",
     "URL",
   ];
@@ -18,9 +21,12 @@ export function exportToCSV(items: IkeaItem[], stats: Statistics): void {
   const rows = items.map((item) => [
     formatArticleId(item.id),
     `"${item.name.replace(/"/g, '""')}"`,
+    String(item.qty),
     item.priceDE.toFixed(2),
     item.pricePLN.toFixed(2),
     item.pricePLNInEur.toFixed(2),
+    (item.priceDE * item.qty).toFixed(2),
+    (item.pricePLNInEur * item.qty).toFixed(2),
     item.discountInPercentage.toFixed(2),
     item.url || "",
   ]);
@@ -53,9 +59,12 @@ export async function exportToExcel(
   const itemsData = items.map((item) => ({
     Artikelnummer: formatArticleId(item.id),
     Name: item.name,
+    Menge: item.qty,
     "Preis DE (EUR)": item.priceDE,
     "Preis PL (PLN)": item.pricePLN,
     "Preis PL (EUR)": item.pricePLNInEur,
+    "Gesamt DE (EUR)": Math.round(item.priceDE * item.qty * 100) / 100,
+    "Gesamt PL (EUR)": Math.round(item.pricePLNInEur * item.qty * 100) / 100,
     "Rabatt %": item.discountInPercentage,
     URL: item.url || "",
   }));
@@ -96,21 +105,23 @@ export function importFromCSV(file: File): Promise<IkeaItem[]> {
           if (cols.length < 6) continue;
 
           const id = cols[0].replace(/\./g, "");
-          const priceDE = parseFloat(cols[2]) || 0;
-          const pricePLN = parseFloat(cols[3]) || 0;
-          const pricePLNInEur = parseFloat(cols[4]) || 0;
-          const discountInPercentage = parseFloat(cols[5]) || 0;
+          const qty = parseInt(cols[2]) || 1;
+          const priceDE = parseFloat(cols[3]) || 0;
+          const pricePLN = parseFloat(cols[4]) || 0;
+          const pricePLNInEur = parseFloat(cols[5]) || 0;
+          const discountInPercentage = parseFloat(cols[8]) || 0;
 
           items.push({
             key: Math.random().toString(),
             id,
             name: cols[1].replace(/^"|"$/g, ""),
+            qty,
             priceDE,
             pricePLN,
             pricePLNInEur,
             discountInPercentage,
             cheaperInPLN: discountInPercentage <= 0,
-            url: cols[6] || "",
+            url: cols[9] || "",
             notFoundDE: priceDE === 0,
             notFoundPL: pricePLNInEur === 0,
             retired: false,
@@ -143,6 +154,7 @@ export async function importFromExcel(file: File): Promise<IkeaItem[]> {
       key: Math.random().toString(),
       id,
       name: String(row["Name"] || ""),
+      qty: Number(row["Menge"]) || 1,
       priceDE,
       pricePLN: Number(row["Preis PL (PLN)"]) || 0,
       pricePLNInEur,

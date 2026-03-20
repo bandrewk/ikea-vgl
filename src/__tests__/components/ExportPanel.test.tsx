@@ -8,6 +8,7 @@ const items: IkeaItem[] = [
     key: "1",
     id: "50205481",
     name: "KALLAX",
+    qty: 1,
     priceDE: 69.99,
     pricePLN: 249,
     pricePLNInEur: 57.64,
@@ -26,6 +27,8 @@ const stats: Statistics = {
   totalDiscountInPercentage: 17.65,
   totalDiscount: 12.35,
   totalItems: 1,
+  missingPLCount: 0,
+  missingPLValueDE: 0,
 };
 
 describe("ExportPanel", () => {
