@@ -19,7 +19,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--blue), var(--yellow));
+  background: var(--blue);
   opacity: 0;
   transition: opacity 300ms var(--ease);
 }

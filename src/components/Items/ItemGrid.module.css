@@ -17,6 +17,40 @@
   letter-spacing: -0.3px;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.sortWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: var(--s-2) var(--s-3);
+  font-size: var(--fs-12);
+  font-weight: 600;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  transition: all var(--dur) var(--ease);
+}
+
+.sortSelect {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  padding-right: var(--s-1);
+}
+
+.sortSelect:focus-visible {
+  outline: none;
+}
+
 .clearBtn {
   display: inline-flex;
   align-items: center;

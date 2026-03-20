@@ -91,7 +91,7 @@ export default function ItemCard({ item, onRemove, onUpdateQty }: ItemCardProps)
       <p className={classes.title}>
         {item.url ? (
           <a
-            href={`${item.url}?ref=ikeadeplvgl`}
+            href={`${item.url}?ref=ikea-vgl.de`}
             target="_blank"
             rel="noreferrer"
             className={classes.titleLink}
