@@ -1,4 +1,5 @@
 [![CI](https://github.com/bandrewk/ikea-vgl/actions/workflows/ci.yml/badge.svg)](https://github.com/bandrewk/ikea-vgl/actions/workflows/ci.yml)
+[![CD](https://github.com/bandrewk/ikea-vgl/actions/workflows/cd.yml/badge.svg)](https://github.com/bandrewk/ikea-vgl/actions/workflows/cd.yml)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 # IKEA DE↔PL Price Comparison Tool
@@ -7,15 +8,47 @@ Source code of [www.ikea-vgl.de](https://www.ikea-vgl.de)
 
 Compare IKEA product prices between Germany (DE) and Poland (PL) side by side. Many products are significantly cheaper in Poland — in some cases over 50%.
 
+![Demo](docs/ikea-vgl.gif)
+
 ## Features
 
 - Look up any IKEA product by article number
 - Side-by-side price comparison between DE and PL stores
-- Automatic PLN to EUR conversion
-- Percentage discount calculation
+- Automatic PLN to EUR conversion with percentage discount
+- Item quantity support (qty +/-)
+- Sortable item grid (by discount, price, or name)
+- CSV & Excel export/import with live price refresh on import
+- Price comparison bar chart
+- Dark/light theme toggle
+- Example kitchen demo (49 real METOD/VEDDINGE articles)
+- Missing-PL-item warning in stats
 - Persistent product list (saved in browser)
 - Detection of retired/discontinued products
-- Demo mode with pre-loaded example products
+- Content Security Policy
+
+## Tech Stack
+
+- React 18 + TypeScript
+- Vite
+- Recharts (charts)
+- Lucide React (icons)
+- CSS Modules with design tokens
+- Vitest + Testing Library (105 tests)
+- MSW (API mocking)
+
+## Development
+
+```bash
+npm install      # install dependencies
+npm run dev      # start dev server
+npm test         # run tests
+npm run build    # production build
+```
+
+## CI/CD
+
+- **CI** — type check → tests → build (on push to `main`/`development`/`v2.0.0`, PRs to `main`)
+- **CD** — type check → tests → build → FTP deploy (on push to `main`)
 
 ## Who is this for?
 

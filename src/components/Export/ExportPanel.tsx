@@ -41,25 +41,28 @@ export default function ExportPanel({
   return (
     <section className={classes.section}>
       <p className={classes.label}>
-        <Download size={14} /> Export / Import
+        {items.length > 0 ? <Download size={14} /> : <Upload size={14} />}
+        {items.length > 0 ? " Export / Import" : " Import"}
       </p>
       <div className={classes.buttons}>
-        <button
-          className={classes.btn}
-          onClick={() => exportToCSV(items, stats)}
-          disabled={items.length === 0}
-        >
-          <FileText size={15} />
-          CSV
-        </button>
-        <button
-          className={classes.btn}
-          onClick={() => exportToExcel(items, stats)}
-          disabled={items.length === 0}
-        >
-          <FileSpreadsheet size={15} />
-          Excel
-        </button>
+        {items.length > 0 && (
+          <>
+            <button
+              className={classes.btn}
+              onClick={() => exportToCSV(items, stats)}
+            >
+              <FileText size={15} />
+              CSV
+            </button>
+            <button
+              className={classes.btn}
+              onClick={() => exportToExcel(items, stats)}
+            >
+              <FileSpreadsheet size={15} />
+              Excel
+            </button>
+          </>
+        )}
         <button
           className={`${classes.btn} ${classes.btnSecondary}`}
           onClick={() => fileInputRef.current?.click()}

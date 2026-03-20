@@ -50,6 +50,11 @@
   font-variant-numeric: tabular-nums;
 }
 
+.copy {
+  font-size: var(--fs-11);
+  color: var(--text-3);
+}
+
 .link {
   display: inline-flex;
   align-items: center;
