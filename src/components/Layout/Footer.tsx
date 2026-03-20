@@ -5,9 +5,10 @@ import classes from "./Footer.module.css";
 interface FooterProps {
   exchangeRate: number;
   onLoadDemo: () => void;
+  onLoadKitchen: () => void;
 }
 
-export default function Footer({ exchangeRate, onLoadDemo }: FooterProps) {
+export default function Footer({ exchangeRate, onLoadDemo, onLoadKitchen }: FooterProps) {
   return (
     <footer className={classes.footer}>
       <div className={classes.inner}>
@@ -30,6 +31,9 @@ export default function Footer({ exchangeRate, onLoadDemo }: FooterProps) {
         <div className={classes.right}>
           <button className={classes.demoBtn} onClick={onLoadDemo}>
             Demo laden
+          </button>
+          <button className={classes.kitchenBtn} onClick={onLoadKitchen}>
+            Beispielküche 🍳
           </button>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { API_URL_DE, API_URL_PLN } from "../config/api";
 import { useLocalStorage } from "./useLocalStorage";
+import { kitchenItems } from "../config/kitchenDemo";
 import type { IkeaItem, Statistics } from "../types/item";
 
 function createEmptyItem(id: string, overrides: Partial<IkeaItem> = {}): IkeaItem {
@@ -196,5 +197,15 @@ export function useIkeaSearch(exchangeRate: number) {
     demoIds.forEach(addItem);
   }, [items.length, addItem]);
 
-  return { items, stats, addItem, removeItem, loadDemoData, setItems };
+  const loadKitchenDemo = useCallback(() => {
+    if (items.length > 0) return;
+    // Stagger API calls to avoid rate limiting
+    kitchenItems.forEach((item, i) => {
+      for (let q = 0; q < item.qty; q++) {
+        setTimeout(() => addItem(item.articleId), (i * item.qty + q) * 200);
+      }
+    });
+  }, [items.length, addItem]);
+
+  return { items, stats, addItem, removeItem, loadDemoData, loadKitchenDemo, setItems };
 }
