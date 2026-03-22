@@ -1,11 +1,14 @@
 name: CD
 
 on:
-  push:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
     branches: [main]
 
 jobs:
   deploy:
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
 
     steps:
@@ -17,12 +20,6 @@ jobs:
           cache: npm
 
       - run: npm ci
-
-      - name: Type check
-        run: npx tsc --noEmit
-
-      - name: Run tests
-        run: npx vitest run
 
       - name: Build
         run: npm run build

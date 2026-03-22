@@ -1,5 +1,6 @@
 [![CI](https://github.com/bandrewk/ikea-vgl/actions/workflows/ci.yml/badge.svg)](https://github.com/bandrewk/ikea-vgl/actions/workflows/ci.yml)
 [![CD](https://github.com/bandrewk/ikea-vgl/actions/workflows/cd.yml/badge.svg)](https://github.com/bandrewk/ikea-vgl/actions/workflows/cd.yml)
+[![Release](https://github.com/bandrewk/ikea-vgl/actions/workflows/release.yml/badge.svg)](https://github.com/bandrewk/ikea-vgl/actions/workflows/release.yml)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 # IKEA DE↔PL Price Comparison Tool
@@ -47,8 +48,9 @@ npm run build    # production build
 
 ## CI/CD
 
-- **CI** — type check → tests → build (on push to `main`/`development`/`v2.0.0`, PRs to `main`)
-- **CD** — type check → tests → build → FTP deploy (on push to `main`)
+- **CI** — type check → tests → build (on push to `main`/`development`, PRs to `main`)
+- **CD** — build → FTP deploy (runs after CI passes on `main`)
+- **Release** — creates a GitHub release from CHANGELOG.md (runs after CD passes on `main`)
 
 ## Who is this for?
 
