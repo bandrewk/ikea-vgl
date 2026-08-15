@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.2] - 2026-08-15
+
+### Changed
+
+- Major dependency updates: React 18 → 19, Recharts 2 → 3, TypeScript 5.9 → 7,
+  lucide-react 0.468 → 1.31, jest-dom 6 → 7, and the GitHub Actions used by the
+  workflows (checkout v4 → v7, setup-node v4 → v7, FTP-Deploy 4.3.5 → 4.4.0).
+- The GitHub link in the footer uses an inlined mark, since lucide removed its
+  brand icons in v1. The footer looks unchanged.
+
 ## [2.0.1] - 2026-08-15
 
 ### Fixed

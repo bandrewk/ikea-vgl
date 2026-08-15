@@ -29,7 +29,7 @@ Compare IKEA product prices between Germany (DE) and Poland (PL) side by side. M
 
 ## Tech Stack
 
-- React 18 + TypeScript
+- React 19 + TypeScript
 - Vite
 - Recharts (charts)
 - Lucide React (icons)
