@@ -21,7 +21,7 @@ Compare IKEA product prices between Germany (DE) and Poland (PL) side by side. M
 - CSV & Excel export/import with live price refresh on import
 - Price comparison bar chart
 - Dark/light theme toggle
-- Example kitchen demo (49 real METOD/VEDDINGE articles)
+- Example kitchen demo (48 real METOD/VEDDINGE articles)
 - Missing-PL-item warning in stats
 - Persistent product list (saved in browser)
 - Detection of retired/discontinued products
@@ -33,11 +33,14 @@ Compare IKEA product prices between Germany (DE) and Poland (PL) side by side. M
 - Vite
 - Recharts (charts)
 - Lucide React (icons)
+- write-excel-file / read-excel-file (Excel export & import)
 - CSS Modules with design tokens
-- Vitest + Testing Library (105 tests)
+- Vitest + Testing Library (108 tests)
 - MSW (API mocking)
 
 ## Development
+
+Requires Node 20.19+ or 22.12+ (CI builds on Node 24).
 
 ```bash
 npm install      # install dependencies
@@ -48,7 +51,7 @@ npm run build    # production build
 
 ## CI/CD
 
-- **CI** — type check → tests → build (on push to `main`/`development`, PRs to `main`)
+- **CI** — type check → tests → build (on push to `main`/`development`, PRs to either)
 - **CD** — build → FTP deploy (runs after CI passes on `main`)
 - **Release** — creates a GitHub release from CHANGELOG.md (runs after CD passes on `main`)
 
@@ -58,7 +61,7 @@ This tool is primarily useful for people living in Germany near the Polish borde
 
 ## Notes
 
-- Currency conversion uses live EUR/PLN exchange rates from the [European Central Bank](https://www.ecb.europa.eu/) via [frankfurter.app](https://www.frankfurter.app/). Falls back to a hardcoded rate if the API is unavailable.
+- Currency conversion uses live EUR/PLN exchange rates from the [European Central Bank](https://www.ecb.europa.eu/) via [Frankfurter](https://frankfurter.dev/). Falls back to a hardcoded rate if the API is unavailable.
 - The interface is in German only.
 - Product data is fetched directly from IKEA's public search API.
 

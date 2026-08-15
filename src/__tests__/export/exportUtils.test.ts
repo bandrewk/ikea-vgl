@@ -34,16 +34,36 @@ const stats: Statistics = {
 
 // Mock URL.createObjectURL and document methods for download
 let capturedCSV = "";
+let capturedBlob: Blob | null = null;
 
 beforeEach(() => {
   capturedCSV = "";
+  capturedBlob = null;
 
-  vi.stubGlobal("URL", {
-    ...URL,
-    createObjectURL: vi.fn(() => "blob:mock-url"),
-    revokeObjectURL: vi.fn(),
-  });
+  // Keep URL constructible — spreading the class drops its constructor, and
+  // other code (MSW, jsdom) calls `new URL(...)` during these tests.
+  vi.stubGlobal(
+    "URL",
+    Object.assign(class MockURL extends URL {}, {
+      createObjectURL: vi.fn((blob: Blob) => {
+        capturedBlob = blob;
+        return "blob:mock-url";
+      }),
+      revokeObjectURL: vi.fn(),
+    })
+  );
 });
+
+// Swallows the anchor click that would otherwise try to download the file.
+function stubDownloadAnchor() {
+  const clickSpy = vi.fn();
+  vi.spyOn(document.body, "appendChild").mockImplementation((node) => {
+    (node as HTMLAnchorElement).click = clickSpy;
+    return node;
+  });
+  vi.spyOn(document.body, "removeChild").mockImplementation((node) => node);
+  return clickSpy;
+}
 
 describe("exportToCSV", () => {
   it("generates valid CSV with BOM, headers, and data rows", async () => {
@@ -251,6 +271,103 @@ describe("importFromCSV", () => {
 
     // parseCSVLine handles the quotes, then outer-quote strip cleans up
     expect(items[0].name).toBe("KALLAX special");
+  });
+});
+
+describe("Excel export / import", () => {
+  it("writes a workbook and reads it back with values intact", async () => {
+    const { exportToExcel, importFromExcel } = await import(
+      "../../components/Export/exportUtils"
+    );
+    stubDownloadAnchor();
+
+    await exportToExcel([makeItem(), makeItem({ key: "test-2", id: "00205431", name: 'VEDDINGE "Tür"', qty: 3 })], stats);
+
+    expect(capturedBlob).not.toBeNull();
+    const blob = capturedBlob as unknown as Blob;
+    expect(blob.size).toBeGreaterThan(0);
+
+    const file = new File([blob], "ikea-preisvergleich.xlsx", {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const imported = await importFromExcel(file);
+
+    expect(imported).toHaveLength(2);
+
+    // Article IDs are written with dots and normalized back on import
+    expect(imported[0].id).toBe("50205481");
+    expect(imported[0].name).toBe("KALLAX Regal");
+    expect(imported[0].qty).toBe(1);
+    expect(imported[0].priceDE).toBeCloseTo(69.99, 2);
+    expect(imported[0].pricePLN).toBeCloseTo(249.0, 2);
+    expect(imported[0].pricePLNInEur).toBeCloseTo(57.64, 2);
+    expect(imported[0].discountInPercentage).toBeCloseTo(-17.65, 2);
+    expect(imported[0].cheaperInPLN).toBe(true);
+    expect(imported[0].url).toBe("https://www.ikea.de/p/kallax");
+
+    // Quotes in names survive the round trip, and qty is carried over
+    expect(imported[1].id).toBe("00205431");
+    expect(imported[1].name).toBe('VEDDINGE "Tür"');
+    expect(imported[1].qty).toBe(3);
+  });
+
+  it("flags missing prices as not found on import", async () => {
+    const { exportToExcel, importFromExcel } = await import(
+      "../../components/Export/exportUtils"
+    );
+    stubDownloadAnchor();
+
+    await exportToExcel(
+      [makeItem({ priceDE: 0, pricePLN: 0, pricePLNInEur: 0, url: "" })],
+      stats
+    );
+
+    const file = new File([capturedBlob as unknown as Blob], "x.xlsx");
+    const imported = await importFromExcel(file);
+
+    expect(imported[0].notFoundDE).toBe(true);
+    expect(imported[0].notFoundPL).toBe(true);
+  });
+
+  it("maps columns by header name rather than by position", async () => {
+    const { importFromExcel } = await import(
+      "../../components/Export/exportUtils"
+    );
+    const writeXlsxFile = (await import("write-excel-file/browser")).default;
+
+    // Same data, columns deliberately in a different order
+    const file = await writeXlsxFile([
+      {
+        sheet: "Produkte",
+        data: [
+          [
+            { value: "Name", type: String },
+            { value: "Menge", type: String },
+            { value: "Artikelnummer", type: String },
+            { value: "Preis DE (EUR)", type: String },
+            { value: "Preis PL (EUR)", type: String },
+          ],
+          [
+            { value: "BODBYN Tür", type: String },
+            { value: 2, type: Number },
+            { value: "502.054.81", type: String },
+            { value: 82, type: Number },
+            { value: 42.26, type: Number },
+          ],
+        ],
+      },
+    ]);
+
+    const imported = await importFromExcel(
+      new File([await file.toBlob()], "reordered.xlsx")
+    );
+
+    expect(imported).toHaveLength(1);
+    expect(imported[0].id).toBe("50205481");
+    expect(imported[0].name).toBe("BODBYN Tür");
+    expect(imported[0].qty).toBe(2);
+    expect(imported[0].priceDE).toBe(82);
+    expect(imported[0].pricePLNInEur).toBe(42.26);
   });
 });
 
