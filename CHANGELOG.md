@@ -23,22 +23,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Replaced SheetJS (`xlsx`) with `write-excel-file` and `read-excel-file`. The
+  two high-severity advisories against `xlsx` have no fix on the npm registry,
+  since the patched releases were never published there. Excel files keep the
+  same two sheets and column headers, and files written by earlier versions
+  still import. The Excel chunk drops from 424 kB to 134 kB (141 kB → 37 kB
+  gzipped) and splits so export and import load separately.
 - Upgraded the test and build toolchain: Vitest 2 → 4, Vite 6 → 8, jsdom 25 → 30,
-  plus minor bumps for MSW, user-event and Fontsource. Clears 14 of 15 advisories
-  reported by `npm audit`, including one critical.
+  plus minor bumps for MSW, user-event and Fontsource. Together with the SheetJS
+  replacement this clears every advisory reported by `npm audit`.
 - CI and CD now run on Node 24, and CI also runs for pull requests against
   `development`.
 
 ### Added
 
 - Dependabot configuration for npm and GitHub Actions, targeting `development`.
-
-### Known issues
-
-- `xlsx` (SheetJS) 0.18.5 still carries two high-severity advisories. The
-  patched releases are not published to the npm registry, so the library is
-  being replaced rather than bumped. Both issues only trigger on files the user
-  imports themselves.
+- Tests for the Excel export and import, which previously had none: a full
+  round trip and a check that columns are matched by header name.
 
 ## [2.0.0] - 2026-03-20
 

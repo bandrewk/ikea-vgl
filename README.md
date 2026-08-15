@@ -33,8 +33,9 @@ Compare IKEA product prices between Germany (DE) and Poland (PL) side by side. M
 - Vite
 - Recharts (charts)
 - Lucide React (icons)
+- write-excel-file / read-excel-file (Excel export & import)
 - CSS Modules with design tokens
-- Vitest + Testing Library (105 tests)
+- Vitest + Testing Library (108 tests)
 - MSW (API mocking)
 
 ## Development
