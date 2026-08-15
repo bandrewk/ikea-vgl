@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   workflows (checkout v4 → v7, setup-node v4 → v7, FTP-Deploy 4.3.5 → 4.4.0).
 - The GitHub link in the footer uses an inlined mark, since lucide removed its
   brand icons in v1. The footer looks unchanged.
+- Node floor raised to ^22.22.2 || ^24.15.0 || >=26.0.0. jsdom 30 and jest-dom 7
+  both dropped Node 20.
 
 ## [2.0.1] - 2026-08-15
 

@@ -40,7 +40,7 @@ Compare IKEA product prices between Germany (DE) and Poland (PL) side by side. M
 
 ## Development
 
-Requires Node 20.19+ or 22.12+ (CI builds on Node 24).
+Requires Node 22.22+, 24.15+ or 26+ (CI builds on Node 24).
 
 ```bash
 npm install      # install dependencies
