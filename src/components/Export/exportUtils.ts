@@ -50,42 +50,76 @@ export function exportToCSV(items: IkeaItem[], stats: Statistics): void {
   downloadBlob(blob, "ikea-preisvergleich.csv");
 }
 
+const EXCEL_HEADERS = [
+  "Artikelnummer",
+  "Name",
+  "Menge",
+  "Preis DE (EUR)",
+  "Preis PL (PLN)",
+  "Preis PL (EUR)",
+  "Gesamt DE (EUR)",
+  "Gesamt PL (EUR)",
+  "Rabatt %",
+  "URL",
+] as const;
+
 export async function exportToExcel(
   items: IkeaItem[],
   stats: Statistics
 ): Promise<void> {
-  const XLSX = await import("xlsx");
+  const { default: writeXlsxFile } = await import("write-excel-file/browser");
 
-  const itemsData = items.map((item) => ({
-    Artikelnummer: formatArticleId(item.id),
-    Name: item.name,
-    Menge: item.qty,
-    "Preis DE (EUR)": item.priceDE,
-    "Preis PL (PLN)": item.pricePLN,
-    "Preis PL (EUR)": item.pricePLNInEur,
-    "Gesamt DE (EUR)": Math.round(item.priceDE * item.qty * 100) / 100,
-    "Gesamt PL (EUR)": Math.round(item.pricePLNInEur * item.qty * 100) / 100,
-    "Rabatt %": item.discountInPercentage,
-    URL: item.url || "",
+  const headerRow = EXCEL_HEADERS.map((value) => ({
+    value,
+    type: String,
+    fontWeight: "bold" as const,
   }));
 
-  const statsData = [
-    { Statistik: "Gesamtpreis DE (EUR)", Wert: stats.totalPriceDE },
-    { Statistik: "Gesamtpreis PL (EUR)", Wert: stats.totalPricePLEur },
-    { Statistik: "Gesamtersparnis (EUR)", Wert: stats.totalDiscount },
+  const itemRows = items.map((item) => [
+    { value: formatArticleId(item.id), type: String },
+    { value: item.name, type: String },
+    { value: item.qty, type: Number },
+    { value: item.priceDE, type: Number },
+    { value: item.pricePLN, type: Number },
+    { value: item.pricePLNInEur, type: Number },
+    { value: Math.round(item.priceDE * item.qty * 100) / 100, type: Number },
     {
-      Statistik: "Gesamtersparnis (%)",
-      Wert: stats.totalDiscountInPercentage,
+      value: Math.round(item.pricePLNInEur * item.qty * 100) / 100,
+      type: Number,
     },
-    { Statistik: "Anzahl Produkte", Wert: stats.totalItems },
+    { value: item.discountInPercentage, type: Number },
+    { value: item.url || "", type: String },
+  ]);
+
+  const statsRows: [string, number][] = [
+    ["Gesamtpreis DE (EUR)", stats.totalPriceDE],
+    ["Gesamtpreis PL (EUR)", stats.totalPricePLEur],
+    ["Gesamtersparnis (EUR)", stats.totalDiscount],
+    ["Gesamtersparnis (%)", stats.totalDiscountInPercentage],
+    ["Anzahl Produkte", stats.totalItems],
   ];
 
-  const wb = XLSX.utils.book_new();
-  const wsItems = XLSX.utils.json_to_sheet(itemsData);
-  const wsStats = XLSX.utils.json_to_sheet(statsData);
-  XLSX.utils.book_append_sheet(wb, wsItems, "Produkte");
-  XLSX.utils.book_append_sheet(wb, wsStats, "Statistik");
-  XLSX.writeFile(wb, "ikea-preisvergleich.xlsx");
+  const file = await writeXlsxFile([
+    {
+      sheet: "Produkte",
+      data: [headerRow, ...itemRows],
+    },
+    {
+      sheet: "Statistik",
+      data: [
+        [
+          { value: "Statistik", type: String, fontWeight: "bold" as const },
+          { value: "Wert", type: String, fontWeight: "bold" as const },
+        ],
+        ...statsRows.map(([label, value]) => [
+          { value: label, type: String },
+          { value, type: Number },
+        ]),
+      ],
+    },
+  ]);
+
+  downloadBlob(await file.toBlob(), "ikea-preisvergleich.xlsx");
 }
 
 export function importFromCSV(file: File): Promise<IkeaItem[]> {
@@ -138,11 +172,17 @@ export function importFromCSV(file: File): Promise<IkeaItem[]> {
 }
 
 export async function importFromExcel(file: File): Promise<IkeaItem[]> {
-  const XLSX = await import("xlsx");
-  const buffer = await file.arrayBuffer();
-  const wb = XLSX.read(buffer);
-  const ws = wb.Sheets[wb.SheetNames[0]];
-  const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws);
+  // `readSheet` reads the first sheet; the default export returns every sheet.
+  const { readSheet } = await import("read-excel-file/browser");
+  const sheet = await readSheet(file);
+
+  // Map by header name so files exported by older versions keep working,
+  // whatever order the columns happen to be in.
+  const [headerRow, ...bodyRows] = sheet;
+  const headers = headerRow.map((cell) => String(cell ?? "").trim());
+  const rows = bodyRows.map((cells) =>
+    Object.fromEntries(headers.map((header, i) => [header, cells[i]]))
+  );
 
   return rows.map((row) => {
     const priceDE = Number(row["Preis DE (EUR)"]) || 0;
