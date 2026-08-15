@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi } from "vitest";
 import Footer from "../../components/Layout/Footer";
+import { APP_VERSION } from "../../config/metadata";
 
 const mockDemo = () => vi.fn(() => true);
 const mockDemoBlocked = () => vi.fn(() => false);
@@ -9,7 +10,7 @@ const mockDemoBlocked = () => vi.fn(() => false);
 describe("Footer", () => {
   it("displays version and exchange rate", () => {
     render(<Footer exchangeRate={4.32} onLoadDemo={mockDemo()} onLoadKitchen={mockDemo()} />);
-    expect(screen.getByText("v2.0.0")).toBeInTheDocument();
+    expect(screen.getByText(`v${APP_VERSION}`)).toBeInTheDocument();
     expect(screen.getByText(/4\.32 PLN/)).toBeInTheDocument();
   });
 

@@ -58,7 +58,7 @@ This tool is primarily useful for people living in Germany near the Polish borde
 
 ## Notes
 
-- Currency conversion uses live EUR/PLN exchange rates from the [European Central Bank](https://www.ecb.europa.eu/) via [frankfurter.app](https://www.frankfurter.app/). Falls back to a hardcoded rate if the API is unavailable.
+- Currency conversion uses live EUR/PLN exchange rates from the [European Central Bank](https://www.ecb.europa.eu/) via [Frankfurter](https://frankfurter.dev/). Falls back to a hardcoded rate if the API is unavailable.
 - The interface is in German only.
 - Product data is fetched directly from IKEA's public search API.
 

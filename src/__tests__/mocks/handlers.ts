@@ -7,7 +7,7 @@ import {
 
 export const handlers = [
   // Exchange rate
-  http.get("https://api.frankfurter.app/latest", () => {
+  http.get("https://api.frankfurter.dev/v1/latest", () => {
     return HttpResponse.json(exchangeRateResponse);
   }),
 

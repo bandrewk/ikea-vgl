@@ -1,0 +1,51 @@
+version: 2
+
+# Version updates land on `development` and travel the normal
+# development -> main -> release path.
+#
+# Note: Dependabot *security* updates (the alert-driven ones) ignore
+# target-branch and are always raised against the default branch (main).
+# Merge those into development afterwards to keep the branches in sync.
+
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    target-branch: development
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Berlin
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+    groups:
+      # One PR per week for the low-risk bumps instead of a dozen.
+      production-minor-patch:
+        dependency-type: production
+        update-types:
+          - minor
+          - patch
+      development-minor-patch:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+    # Majors of the runtime stack get their own PR so they can be tested
+    # on their own (React 19, Recharts 3, and friends).
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    target-branch: development
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Berlin
+    labels:
+      - dependencies
+      - ci
+    groups:
+      actions:
+        patterns:
+          - "*"

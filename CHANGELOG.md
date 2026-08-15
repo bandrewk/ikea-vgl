@@ -5,6 +5,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.1] - 2026-08-15
+
+### Fixed
+
+- Live exchange rate was silently broken: `api.frankfurter.app` now redirects to
+  `api.frankfurter.dev` and the redirect carries no CORS headers, so every rate
+  lookup failed and the app fell back to the hardcoded average (4.2593 instead
+  of the actual 4.3068 — every PL price and discount off by roughly 1 %).
+  Switched to the new endpoint and updated the CSP.
+- Test suite failed on Node 22 and newer: Node's experimental global
+  `localStorage` stays undefined without `--localstorage-file` and shadows the
+  jsdom implementation, breaking 41 of 105 tests. The test setup now restores a
+  Storage-compatible implementation when that happens.
+- Excel export tests replaced the global `URL` with a plain object, which
+  dropped its constructor and broke unrelated code calling `new URL(...)`.
+
+### Changed
+
+- Upgraded the test and build toolchain: Vitest 2 → 4, Vite 6 → 8, jsdom 25 → 30,
+  plus minor bumps for MSW, user-event and Fontsource. Clears 14 of 15 advisories
+  reported by `npm audit`, including one critical.
+- CI and CD now run on Node 24, and CI also runs for pull requests against
+  `development`.
+
+### Added
+
+- Dependabot configuration for npm and GitHub Actions, targeting `development`.
+
+### Known issues
+
+- `xlsx` (SheetJS) 0.18.5 still carries two high-severity advisories. The
+  patched releases are not published to the npm registry, so the library is
+  being replaced rather than bumped. Both issues only trigger on files the user
+  imports themselves.
+
 ## [2.0.0] - 2026-03-20
 
 ### Added

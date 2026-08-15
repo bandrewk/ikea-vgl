@@ -38,11 +38,15 @@ let capturedCSV = "";
 beforeEach(() => {
   capturedCSV = "";
 
-  vi.stubGlobal("URL", {
-    ...URL,
-    createObjectURL: vi.fn(() => "blob:mock-url"),
-    revokeObjectURL: vi.fn(),
-  });
+  // Keep URL constructible — spreading the class drops its constructor, and
+  // other code (MSW, jsdom) calls `new URL(...)` during these tests.
+  vi.stubGlobal(
+    "URL",
+    Object.assign(class MockURL extends URL {}, {
+      createObjectURL: vi.fn(() => "blob:mock-url"),
+      revokeObjectURL: vi.fn(),
+    })
+  );
 });
 
 describe("exportToCSV", () => {

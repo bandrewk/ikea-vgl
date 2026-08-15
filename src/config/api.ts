@@ -7,4 +7,4 @@ export const API_URL_PLN =
 export const EUR_TO_PLN_RATE_AVG = 4.2593;
 
 export const EXCHANGE_RATE_API =
-  "https://api.frankfurter.app/latest?from=EUR&to=PLN";
+  "https://api.frankfurter.dev/v1/latest?from=EUR&to=PLN";
