@@ -40,6 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Dependabot configuration for npm and GitHub Actions, targeting `development`.
 - Tests for the Excel export and import, which previously had none: a full
   round trip and a check that columns are matched by header name.
+- `engines` field pinning the Node floor the toolchain actually requires
+  (^20.19.0 || >=22.12.0).
 
 ## [2.0.0] - 2026-03-20
 

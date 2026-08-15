@@ -21,7 +21,7 @@ Compare IKEA product prices between Germany (DE) and Poland (PL) side by side. M
 - CSV & Excel export/import with live price refresh on import
 - Price comparison bar chart
 - Dark/light theme toggle
-- Example kitchen demo (49 real METOD/VEDDINGE articles)
+- Example kitchen demo (48 real METOD/VEDDINGE articles)
 - Missing-PL-item warning in stats
 - Persistent product list (saved in browser)
 - Detection of retired/discontinued products
@@ -40,6 +40,8 @@ Compare IKEA product prices between Germany (DE) and Poland (PL) side by side. M
 
 ## Development
 
+Requires Node 20.19+ or 22.12+ (CI builds on Node 24).
+
 ```bash
 npm install      # install dependencies
 npm run dev      # start dev server
@@ -49,7 +51,7 @@ npm run build    # production build
 
 ## CI/CD
 
-- **CI** — type check → tests → build (on push to `main`/`development`, PRs to `main`)
+- **CI** — type check → tests → build (on push to `main`/`development`, PRs to either)
 - **CD** — build → FTP deploy (runs after CI passes on `main`)
 - **Release** — creates a GitHub release from CHANGELOG.md (runs after CD passes on `main`)
 
