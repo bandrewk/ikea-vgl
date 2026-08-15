@@ -61,7 +61,9 @@ export default function PriceChart({ items }: PriceChartProps) {
               tickLine={false}
             />
             <Tooltip
-              formatter={(value: number) => `€ ${value.toFixed(2)}`}
+              formatter={(value) =>
+                typeof value === "number" ? `€ ${value.toFixed(2)}` : ""
+              }
               cursor={{ fill: "var(--border)" }}
               contentStyle={{
                 background: "var(--card)",
