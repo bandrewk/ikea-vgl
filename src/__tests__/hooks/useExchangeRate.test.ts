@@ -1,6 +1,7 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { useExchangeRate } from "../../hooks/useExchangeRate";
+import { EUR_TO_PLN_RATE_AVG } from "../../config/api";
 
 describe("useExchangeRate", () => {
   it("fetches exchange rate from API", async () => {
@@ -16,6 +17,6 @@ describe("useExchangeRate", () => {
   it("starts with fallback rate", () => {
     const { result } = renderHook(() => useExchangeRate());
     // Initial value is the hardcoded fallback
-    expect(result.current.exchangeRate).toBe(4.2593);
+    expect(result.current.exchangeRate).toBe(EUR_TO_PLN_RATE_AVG);
   });
 });

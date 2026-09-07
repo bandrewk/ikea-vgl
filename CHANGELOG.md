@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.3] - 2026-09-07
+
+### Changed
+
+- Dependency updates: lucide-react 1.31 → 1.33, @testing-library/react
+  16.3.2 → 16.3.3, @testing-library/user-event 14.6.4 → 14.6.7,
+  @types/react-dom 19.2.4 → 19.2.7, @vitejs/plugin-react 6.0.5 → 6.1.1, and
+  vite 8.2.1 → 8.2.2. All minor or patch, with no behaviour change.
+- The hardcoded fallback exchange rate `EUR_TO_PLN_RATE_AVG` was refreshed
+  from 4.2593 to 4.3148. It only takes effect when the Frankfurter API is
+  unreachable; the old value had drifted about 1.3 percent from the live rate.
+
 ## [2.0.2] - 2026-08-15
 
 ### Changed
