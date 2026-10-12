@@ -20,6 +20,12 @@ updates:
     labels:
       - dependencies
     groups:
+      # @vitest/* packages pin vitest as an exact peer, so they must move
+      # together (majors included) or `npm ci` fails with ERESOLVE.
+      vitest:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
       # One PR per week for the low-risk bumps instead of a dozen.
       production-minor-patch:
         dependency-type: production
