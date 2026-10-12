@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.4] - 2026-10-12
+
+### Changed
+
+- Dependency updates: react and react-dom 19.2.8 → 19.3.0, lucide-react
+  1.33 → 1.54, read-excel-file 9.3.10 → 9.3.12, vite 8.2.2 → 8.3.4,
+  @vitejs/plugin-react 6.1.1 → 6.1.2, jsdom 30.0.1 → 30.1.2, and @types/react
+  and @types/react-dom → 19.3.0. All minor or patch, with no behaviour change.
+- vitest and @vitest/coverage-v8 4.1 → 5.0. The test setup now loads
+  `@testing-library/jest-dom/vitest`, since Vitest 5 no longer picks up the
+  matcher types from the default entry. Dependabot bumps the vitest packages
+  as one group from now on.
+
+### Security
+
+- undici 8.10.0 → 8.11.2 (pulled in by jsdom, used only in tests). Closes
+  seven Dependabot alerts, two of them high. The shipped app never used it.
+
 ## [2.0.3] - 2026-09-07
 
 ### Changed
