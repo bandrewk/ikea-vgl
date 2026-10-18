@@ -9,14 +9,14 @@ const mockDemoBlocked = () => vi.fn(() => false);
 
 describe("Footer", () => {
   it("displays version and exchange rate", () => {
-    render(<Footer exchangeRate={4.32} onLoadDemo={mockDemo()} onLoadKitchen={mockDemo()} />);
+    render(<Footer exchangeRate={4.32} visitorCount={null} onLoadDemo={mockDemo()} onLoadKitchen={mockDemo()} />);
     expect(screen.getByText(`v${APP_VERSION}`)).toBeInTheDocument();
     expect(screen.getByText(/4\.32 PLN/)).toBeInTheDocument();
   });
 
   it("calls onLoadDemo when demo button is clicked", async () => {
     const onLoadDemo = mockDemo();
-    render(<Footer exchangeRate={4.32} onLoadDemo={onLoadDemo} onLoadKitchen={mockDemo()} />);
+    render(<Footer exchangeRate={4.32} visitorCount={null} onLoadDemo={onLoadDemo} onLoadKitchen={mockDemo()} />);
 
     await userEvent.click(screen.getByText(/Demo laden/));
     expect(onLoadDemo).toHaveBeenCalledOnce();
@@ -24,7 +24,7 @@ describe("Footer", () => {
 
   it("calls onLoadKitchen when kitchen button is clicked", async () => {
     const onLoadKitchen = mockDemo();
-    render(<Footer exchangeRate={4.32} onLoadDemo={mockDemo()} onLoadKitchen={onLoadKitchen} />);
+    render(<Footer exchangeRate={4.32} visitorCount={null} onLoadDemo={mockDemo()} onLoadKitchen={onLoadKitchen} />);
 
     await userEvent.click(screen.getByText(/Beispielküche/));
     expect(onLoadKitchen).toHaveBeenCalledOnce();
@@ -33,7 +33,7 @@ describe("Footer", () => {
   it("shows alert when demo is blocked by existing items", async () => {
     const alertSpy = vi.spyOn(window, "alert").mockImplementation(() => {});
     const onLoadDemo = mockDemoBlocked();
-    render(<Footer exchangeRate={4.32} onLoadDemo={onLoadDemo} onLoadKitchen={mockDemo()} />);
+    render(<Footer exchangeRate={4.32} visitorCount={null} onLoadDemo={onLoadDemo} onLoadKitchen={mockDemo()} />);
 
     await userEvent.click(screen.getByText(/Demo laden/));
     expect(alertSpy).toHaveBeenCalledWith(
@@ -45,7 +45,7 @@ describe("Footer", () => {
   it("shows alert when kitchen demo is blocked by existing items", async () => {
     const alertSpy = vi.spyOn(window, "alert").mockImplementation(() => {});
     const onLoadKitchen = mockDemoBlocked();
-    render(<Footer exchangeRate={4.32} onLoadDemo={mockDemo()} onLoadKitchen={onLoadKitchen} />);
+    render(<Footer exchangeRate={4.32} visitorCount={null} onLoadDemo={mockDemo()} onLoadKitchen={onLoadKitchen} />);
 
     await userEvent.click(screen.getByText(/Beispielküche/));
     expect(alertSpy).toHaveBeenCalledWith(
@@ -54,13 +54,25 @@ describe("Footer", () => {
     alertSpy.mockRestore();
   });
 
+  it("displays the visitor count", () => {
+    render(
+      <Footer exchangeRate={4.32} visitorCount={1234} onLoadDemo={mockDemo()} onLoadKitchen={mockDemo()} />
+    );
+    expect(screen.getByText("Besucher: 1.234")).toBeInTheDocument();
+  });
+
+  it("hides the visitor count when it is unavailable", () => {
+    render(<Footer exchangeRate={4.32} visitorCount={null} onLoadDemo={mockDemo()} onLoadKitchen={mockDemo()} />);
+    expect(screen.queryByText(/Besucher/)).not.toBeInTheDocument();
+  });
+
   it("renders GitHub link", () => {
-    render(<Footer exchangeRate={4.32} onLoadDemo={mockDemo()} onLoadKitchen={mockDemo()} />);
+    render(<Footer exchangeRate={4.32} visitorCount={null} onLoadDemo={mockDemo()} onLoadKitchen={mockDemo()} />);
     expect(screen.getByText("GitHub")).toBeInTheDocument();
   });
 
   it("displays copyright notice", () => {
-    render(<Footer exchangeRate={4.32} onLoadDemo={mockDemo()} onLoadKitchen={mockDemo()} />);
+    render(<Footer exchangeRate={4.32} visitorCount={null} onLoadDemo={mockDemo()} onLoadKitchen={mockDemo()} />);
     expect(screen.getByText(/© 2022–2026 bandrewk/)).toBeInTheDocument();
   });
 });

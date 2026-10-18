@@ -12,6 +12,32 @@ describe("useLocalStorage", () => {
     expect(result.current[0]).toBe("hello");
   });
 
+  it("does not write to localStorage on mount", () => {
+    renderHook(() => useLocalStorage("test-key", "hello"));
+    expect(localStorage.getItem("test-key")).toBeNull();
+  });
+
+  it("does not write when the value is unchanged", () => {
+    const { result } = renderHook(() => useLocalStorage("test-key", "hello"));
+
+    act(() => {
+      result.current[1]((prev) => prev);
+    });
+
+    expect(localStorage.getItem("test-key")).toBeNull();
+  });
+
+  it("supports functional updates", () => {
+    const { result } = renderHook(() => useLocalStorage("test-key", 1));
+
+    act(() => {
+      result.current[1]((prev) => prev + 1);
+    });
+
+    expect(result.current[0]).toBe(2);
+    expect(JSON.parse(localStorage.getItem("test-key")!)).toBe(2);
+  });
+
   it("persists value to localStorage", () => {
     const { result } = renderHook(() => useLocalStorage("test-key", "hello"));
 

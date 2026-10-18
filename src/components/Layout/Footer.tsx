@@ -4,6 +4,7 @@ import classes from "./Footer.module.css";
 
 interface FooterProps {
   exchangeRate: number;
+  visitorCount: number | null;
   onLoadDemo: () => boolean;
   onLoadKitchen: () => boolean;
 }
@@ -26,7 +27,12 @@ function GithubIcon({ size = 12 }: { size?: number }) {
 
 const WARN_MSG = "Bitte zuerst alle Artikel löschen, um die Demo zu laden.";
 
-export default function Footer({ exchangeRate, onLoadDemo, onLoadKitchen }: FooterProps) {
+export default function Footer({
+  exchangeRate,
+  visitorCount,
+  onLoadDemo,
+  onLoadKitchen,
+}: FooterProps) {
   const handleDemo = () => {
     if (!onLoadDemo()) alert(WARN_MSG);
   };
@@ -48,6 +54,14 @@ export default function Footer({ exchangeRate, onLoadDemo, onLoadKitchen }: Foot
           <span className={classes.rate}>
             <RefreshCw size={10} /> 1 EUR = {exchangeRate} PLN
           </span>
+          {visitorCount !== null && (
+            <>
+              <span className={classes.sep}>&middot;</span>
+              <span className={classes.rate}>
+                Besucher: {visitorCount.toLocaleString("de-DE")}
+              </span>
+            </>
+          )}
           <span className={classes.sep}>&middot;</span>
           <a
             href="https://github.com/bandrewk/ikea-vgl"
