@@ -8,3 +8,5 @@ export const EUR_TO_PLN_RATE_AVG = 4.3148;
 
 export const EXCHANGE_RATE_API =
   "https://api.frankfurter.dev/v1/latest?from=EUR&to=PLN";
+
+export const VISITOR_COUNTER_URL = "/counter.php";

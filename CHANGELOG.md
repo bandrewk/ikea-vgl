@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.5] - 2026-10-18
+
+### Added
+
+- Visitor counter in the footer, served by the site's own `counter.php`. It
+  counts page loads and stores nothing about the visitor.
+
+### Changed
+
+- The live EUR/PLN rate is fetched on the first article lookup instead of on
+  page load, so opening the site makes no third-party requests.
+- The product list and theme are only saved in the browser once the user
+  changes something; a first visit stores nothing.
+- msw 2.15 → 3.0 (used only in tests).
+
+### Removed
+
+- Google Analytics, including its cookies and CSP entries.
+
+### Fixed
+
+- A PL price could be converted with the fallback rate if the live rate
+  arrived while the PL request was still pending.
+
 ## [2.0.4] - 2026-10-12
 
 ### Changed

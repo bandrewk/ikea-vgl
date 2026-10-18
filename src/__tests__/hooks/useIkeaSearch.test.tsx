@@ -2,12 +2,16 @@ import { renderHook, act, waitFor } from "@testing-library/react";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
-import { ikeaRetiredResponse } from "../mocks/fixtures";
+import { ikeaProductResponse, ikeaRetiredResponse } from "../mocks/fixtures";
 import { useIkeaSearch } from "../../hooks/useIkeaSearch";
 
 beforeEach(() => {
   localStorage.clear();
 });
+
+// Only the staggered addItem calls use setTimeout. MSW resolves responses via
+// setImmediate, which must stay real or mocked requests never complete.
+const useFakeTimeouts = () => vi.useFakeTimers({ toFake: ["setTimeout"] });
 
 describe("useIkeaSearch", () => {
   describe("initial state", () => {
@@ -37,6 +41,57 @@ describe("useIkeaSearch", () => {
       expect(item.name).toBe("KALLAX Regal");
       expect(item.priceDE).toBe(69.99);
       expect(item.qty).toBe(1);
+    });
+
+    it("requests the exchange rate when looking up an article", async () => {
+      const requestRate = vi.fn();
+      const { result } = renderHook(() => useIkeaSearch(4.32, requestRate));
+
+      expect(requestRate).not.toHaveBeenCalled();
+      act(() => {
+        result.current.addItem("50205481");
+      });
+
+      expect(requestRate).toHaveBeenCalledOnce();
+      await waitFor(() => {
+        expect(result.current.items.length).toBe(1);
+      });
+    });
+
+    it("converts with a rate that changes while the PL request is pending", async () => {
+      let releasePL!: () => void;
+      const plPending = new Promise<void>((resolve) => {
+        releasePL = resolve;
+      });
+      let plRequested = false;
+      server.use(
+        http.get(
+          "https://sik.search.blue.cdtapps.com/pl/pl/search-result-page",
+          async () => {
+            plRequested = true;
+            await plPending;
+            return HttpResponse.json(ikeaProductResponse("TESTPRODUKT", "Typ", 199.0));
+          }
+        )
+      );
+
+      const { result, rerender } = renderHook(
+        ({ rate }) => useIkeaSearch(rate),
+        { initialProps: { rate: 4.0 } }
+      );
+
+      act(() => {
+        result.current.addItem("50205481");
+      });
+      await waitFor(() => expect(plRequested).toBe(true));
+
+      rerender({ rate: 5.0 });
+      releasePL();
+
+      await waitFor(() => {
+        expect(result.current.items.length).toBe(1);
+      });
+      expect(result.current.items[0].pricePLNInEur).toBe(39.8);
     });
 
     it("strips dots from articleId for duplicate lookup", async () => {
@@ -436,7 +491,7 @@ describe("useIkeaSearch", () => {
     });
 
     it("returns true on successful load", () => {
-      vi.useFakeTimers();
+      useFakeTimeouts();
       const { result } = renderHook(() => useIkeaSearch(4.32));
 
       let returned: boolean | undefined;
@@ -454,7 +509,7 @@ describe("useIkeaSearch", () => {
     });
 
     it("returns false on second call (already loading)", () => {
-      vi.useFakeTimers();
+      useFakeTimeouts();
       const { result } = renderHook(() => useIkeaSearch(4.32));
 
       act(() => {
@@ -518,7 +573,7 @@ describe("useIkeaSearch", () => {
       });
 
       // Now import — should clear and re-fetch
-      vi.useFakeTimers();
+      useFakeTimeouts();
       act(() => {
         result.current.importItems(fakeImported);
       });
@@ -548,7 +603,7 @@ describe("useIkeaSearch", () => {
     });
 
     it("preserves qty from imported items", async () => {
-      vi.useFakeTimers();
+      useFakeTimeouts();
       const { result } = renderHook(() => useIkeaSearch(4.32));
 
       act(() => {
@@ -584,7 +639,7 @@ describe("useIkeaSearch", () => {
       });
 
       // Import clears and resets
-      vi.useFakeTimers();
+      useFakeTimeouts();
       act(() => {
         result.current.importItems(fakeImported);
       });
@@ -623,7 +678,7 @@ describe("useIkeaSearch", () => {
         { ...fakeImported[0], id: "80242745", qty: 1 },
       ];
 
-      vi.useFakeTimers();
+      useFakeTimeouts();
       const { result } = renderHook(() => useIkeaSearch(4.32));
 
       act(() => {

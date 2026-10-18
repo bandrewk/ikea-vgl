@@ -11,6 +11,11 @@ export const handlers = [
     return HttpResponse.json(exchangeRateResponse);
   }),
 
+  // Visitor counter
+  http.get("*/counter.php", () => {
+    return HttpResponse.json({ count: 1234 });
+  }),
+
   // IKEA DE
   http.get(
     "https://sik.search.blue.cdtapps.com/de/de/search-result-page",
