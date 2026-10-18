@@ -63,9 +63,10 @@ This tool is primarily useful for people living in Germany near the Polish borde
 
 ## Notes
 
-- Currency conversion uses live EUR/PLN exchange rates from the [European Central Bank](https://www.ecb.europa.eu/) via [Frankfurter](https://frankfurter.dev/). Falls back to a hardcoded rate if the API is unavailable.
+- Currency conversion uses live EUR/PLN exchange rates from the [European Central Bank](https://www.ecb.europa.eu/) via [Frankfurter](https://frankfurter.dev/), fetched on the first article lookup. Falls back to a hardcoded rate until then or if the API is unavailable.
 - The interface is in German only.
 - Product data is fetched directly from IKEA's public search API.
+- The visitor counter (`public/counter.php`) needs PHP on the host and write access to the web root, where it creates `counter.txt`. Without PHP, e.g. in `npm run dev`, the count is simply not shown.
 
 ## Disclaimer
 
