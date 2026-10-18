@@ -37,11 +37,14 @@ function isValidItem(item: unknown): item is IkeaItem {
   );
 }
 
-export function useIkeaSearch(exchangeRate: number) {
+export function useIkeaSearch(exchangeRate: number, requestRate?: () => void) {
   const [rawItems, setItems] = useLocalStorage<IkeaItem[]>("ikea-items", []);
   const items = rawItems.filter(isValidItem);
   const itemsRef = useRef(items);
   itemsRef.current = items;
+  // Read at response time, so a rate that arrives mid-request is still used
+  const exchangeRateRef = useRef(exchangeRate);
+  exchangeRateRef.current = exchangeRate;
   const demoLoadedRef = useRef(false);
 
   const stats: Statistics = useMemo(() => {
@@ -123,7 +126,8 @@ export function useIkeaSearch(exchangeRate: number) {
 
           const foreignPrice =
             Math.round(artikel.salesPrice.numeral * 100) / 100;
-          const priceInEUR = Math.round((foreignPrice / exchangeRate) * 100) / 100;
+          const priceInEUR =
+            Math.round((foreignPrice / exchangeRateRef.current) * 100) / 100;
           const discountInPercentage =
             Math.round(((100 / item.priceDE) * priceInEUR - 100) * 100) / 100;
 
@@ -145,7 +149,7 @@ export function useIkeaSearch(exchangeRate: number) {
           ]);
         });
     },
-    [exchangeRate, setItems]
+    [setItems]
   );
 
   const addItem = useCallback(
@@ -161,6 +165,8 @@ export function useIkeaSearch(exchangeRate: number) {
         );
         return;
       }
+
+      requestRate?.();
 
       fetch(`${API_URL_DE}?${new URLSearchParams({ q: articleId })}`)
         .then((response) => {
@@ -209,7 +215,7 @@ export function useIkeaSearch(exchangeRate: number) {
           ]);
         });
     },
-    [getPLNStorePrice, setItems]
+    [getPLNStorePrice, requestRate, setItems]
   );
 
   const updateQty = useCallback(

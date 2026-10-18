@@ -8,12 +8,14 @@ import PriceChart from "./components/Statistics/PriceChart";
 import ExportPanel from "./components/Export/ExportPanel";
 import { useExchangeRate } from "./hooks/useExchangeRate";
 import { useIkeaSearch } from "./hooks/useIkeaSearch";
+import { useVisitorCount } from "./hooks/useVisitorCount";
 import classes from "./App.module.css";
 
 export default function App() {
-  const { exchangeRate } = useExchangeRate();
+  const { exchangeRate, requestRate } = useExchangeRate();
   const { items, stats, addItem, removeItem, updateQty, loadDemoData, loadKitchenDemo, importItems } =
-    useIkeaSearch(exchangeRate);
+    useIkeaSearch(exchangeRate, requestRate);
+  const visitorCount = useVisitorCount();
 
   const hasItems = items.length > 0;
 
@@ -52,7 +54,12 @@ export default function App() {
           </div>
         )}
       </main>
-      <Footer exchangeRate={exchangeRate} onLoadDemo={loadDemoData} onLoadKitchen={loadKitchenDemo} />
+      <Footer
+        exchangeRate={exchangeRate}
+        visitorCount={visitorCount}
+        onLoadDemo={loadDemoData}
+        onLoadKitchen={loadKitchenDemo}
+      />
     </Layout>
   );
 }

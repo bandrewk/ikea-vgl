@@ -26,6 +26,8 @@ Compare IKEA product prices between Germany (DE) and Poland (PL) side by side. M
 - Persistent product list (saved in browser)
 - Detection of retired/discontinued products
 - Content Security Policy
+- No cookies, no tracking, no third-party requests on page load
+- Self-hosted visitor counter
 
 ## Tech Stack
 
@@ -35,7 +37,7 @@ Compare IKEA product prices between Germany (DE) and Poland (PL) side by side. M
 - Lucide React (icons)
 - write-excel-file / read-excel-file (Excel export & import)
 - CSS Modules with design tokens
-- Vitest + Testing Library (108 tests)
+- Vitest + Testing Library (121 tests)
 - MSW (API mocking)
 
 ## Development
