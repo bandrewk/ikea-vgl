@@ -9,6 +9,10 @@ beforeEach(() => {
   localStorage.clear();
 });
 
+// Only the staggered addItem calls use setTimeout. MSW resolves responses via
+// setImmediate, which must stay real or mocked requests never complete.
+const useFakeTimeouts = () => vi.useFakeTimers({ toFake: ["setTimeout"] });
+
 describe("useIkeaSearch", () => {
   describe("initial state", () => {
     it("starts with empty items and zero stats", () => {
@@ -436,7 +440,7 @@ describe("useIkeaSearch", () => {
     });
 
     it("returns true on successful load", () => {
-      vi.useFakeTimers();
+      useFakeTimeouts();
       const { result } = renderHook(() => useIkeaSearch(4.32));
 
       let returned: boolean | undefined;
@@ -454,7 +458,7 @@ describe("useIkeaSearch", () => {
     });
 
     it("returns false on second call (already loading)", () => {
-      vi.useFakeTimers();
+      useFakeTimeouts();
       const { result } = renderHook(() => useIkeaSearch(4.32));
 
       act(() => {
@@ -518,7 +522,7 @@ describe("useIkeaSearch", () => {
       });
 
       // Now import — should clear and re-fetch
-      vi.useFakeTimers();
+      useFakeTimeouts();
       act(() => {
         result.current.importItems(fakeImported);
       });
@@ -548,7 +552,7 @@ describe("useIkeaSearch", () => {
     });
 
     it("preserves qty from imported items", async () => {
-      vi.useFakeTimers();
+      useFakeTimeouts();
       const { result } = renderHook(() => useIkeaSearch(4.32));
 
       act(() => {
@@ -584,7 +588,7 @@ describe("useIkeaSearch", () => {
       });
 
       // Import clears and resets
-      vi.useFakeTimers();
+      useFakeTimeouts();
       act(() => {
         result.current.importItems(fakeImported);
       });
@@ -623,7 +627,7 @@ describe("useIkeaSearch", () => {
         { ...fakeImported[0], id: "80242745", qty: 1 },
       ];
 
-      vi.useFakeTimers();
+      useFakeTimeouts();
       const { result } = renderHook(() => useIkeaSearch(4.32));
 
       act(() => {
